@@ -1,15 +1,18 @@
 import React, { Component } from "react";
+import { HashRouter, Route } from "react-router-dom";
+
+import DirectoryListing from "./DirectoryListing";
 
 class App extends Component {
   render() {
     return (
       <div>
-        <header>
-          <h1>Welcome to React</h1>
-        </header>
-        <p>
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <HashRouter>
+          <div>
+            <Route path="/:path+" component={DirectoryListing} />
+            <Route path="/" exact component={DirectoryListing} />
+          </div>
+        </HashRouter>
       </div>
     );
   }
