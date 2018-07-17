@@ -13,18 +13,20 @@ class DirectoryListing extends React.Component {
   }
 
   async updateData() {
-    const path = this.props.match.params.path || "";
+    const path = this.props.match.params.path
+      ? this.props.match.params.path.split("/")
+      : [];
 
-    if (path !== this.state.path) {
+    if (!this.state.path || path.join("/") !== this.state.path.join("/")) {
       this.setState({
-        path,
+        path
       });
 
-      const req = await fetch(`/browse?path=${path}`);
+      const req = await fetch(`/browse?path=${path.join("/")}`);
       const data = await req.json();
 
       this.setState({
-        data,
+        data
       });
     }
   }
@@ -32,12 +34,14 @@ class DirectoryListing extends React.Component {
   render() {
     return (
       <div>
-        <h2>{this.state.path}</h2>
+        <h2>{this.state.path && this.state.path.join(" / ")}</h2>
         <ul>
           {this.state.data &&
             this.state.data.map(entry => (
               <li key={entry}>
-                <Link to={[this.state.path, entry].join("/")}>{entry}</Link>
+                <Link to={"/" + [...this.state.path, entry].join("/")}>
+                  {entry}
+                </Link>
               </li>
             ))}
         </ul>
