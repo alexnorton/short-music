@@ -18,8 +18,16 @@ const withoutThe = input => input.match(/^(?:The )?(.+)$/)[1];
 app.get("/browse", function(req, res) {
   const dir = path.join(BASE_DIR, req.query.path || "");
 
-  fs.readdir(dir, function(err, files) {
-    res.json(files.sort((a, b) => withoutThe(a).localeCompare(withoutThe(b))));
+  fs.stat(dir, (err, stats) => {
+    if (!err && stats.isDirectory()) {
+      fs.readdir(dir, function(err, files) {
+        res.json(
+          files.sort((a, b) => withoutThe(a).localeCompare(withoutThe(b)))
+        );
+      });
+    } else {
+      res.json([]);
+    }
   });
 });
 
