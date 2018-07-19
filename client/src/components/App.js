@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { HashRouter, Route } from "react-router-dom";
 
-import DirectoryListing from "./DirectoryListing";
+import Browser from "../containers/Browser";
 
 class App extends Component {
   render() {
@@ -9,8 +9,8 @@ class App extends Component {
       <div>
         <HashRouter>
           <div>
-            <Route path="/:path+" component={DirectoryListing} />
-            <Route path="/" exact component={DirectoryListing} />
+            <Route path="/:path+" component={Browser} />
+            <Route path="/" exact component={Browser} />
           </div>
         </HashRouter>
       </div>
