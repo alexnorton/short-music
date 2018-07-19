@@ -1,5 +1,7 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+
+import removeArticle from "./removeArticle";
 
 class DirectoryListing extends React.Component {
   state = { path: [] };
@@ -34,7 +36,7 @@ class DirectoryListing extends React.Component {
   render() {
     const { path, data } = this.state;
 
-    return (
+    return data ? (
       <div>
         <h2>{path && path.join(" / ")}</h2>
         {path.length > 0 && (
@@ -42,16 +44,38 @@ class DirectoryListing extends React.Component {
             Up one level
           </Link>
         )}
-        <ul>
-          {data &&
-            data.map(entry => (
-              <li key={entry}>
-                <Link to={"/" + [...path, entry].join("/")}>{entry}</Link>
-              </li>
-            ))}
-        </ul>
+        {data.directories.length > 0 && (
+          <Fragment>
+            <h3>Directories</h3>
+            <ul>
+              {data.directories
+                .sort((a, b) =>
+                  removeArticle(a).localeCompare(removeArticle(b))
+                )
+                .map(directory => (
+                  <li key={directory}>
+                    <Link to={"/" + [...path, directory].join("/")}>
+                      {directory}
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </Fragment>
+        )}
+        {data.files.length > 0 && (
+          <Fragment>
+            <h3>Files</h3>
+            <ul>
+              {data.files
+                .sort((a, b) =>
+                  removeArticle(a).localeCompare(removeArticle(b))
+                )
+                .map(file => <li key={file}>{file}</li>)}
+            </ul>
+          </Fragment>
+        )}
       </div>
-    );
+    ) : null;
   }
 }
 

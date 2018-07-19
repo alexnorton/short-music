@@ -1,5 +1,5 @@
 const express = require("express");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 require("dotenv").config();
@@ -13,22 +13,30 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-const withoutThe = input => input.match(/^(?:The )?(.+)$/)[1];
-
-app.get("/browse", function(req, res) {
+app.get("/browse", async (req, res) => {
   const dir = path.join(BASE_DIR, req.query.path || "");
 
-  fs.stat(dir, (err, stats) => {
-    if (!err && stats.isDirectory()) {
-      fs.readdir(dir, function(err, files) {
-        res.json(
-          files.sort((a, b) => withoutThe(a).localeCompare(withoutThe(b)))
-        );
-      });
+  try {
+    const dirStats = await fs.stat(dir);
+
+    if (dirStats.isDirectory()) {
+      const items = await fs.readdir(dir);
+
+      const directories = items.filter(item =>
+        fs.statSync(path.join(dir, item)).isDirectory()
+      );
+
+      const files = items.filter(item =>
+        fs.statSync(path.join(dir, item)).isFile()
+      );
+
+      res.json({ directories, files });
     } else {
       res.json([]);
     }
-  });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 });
 
 app.get("/get", function(req, res) {
