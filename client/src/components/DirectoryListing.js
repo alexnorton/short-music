@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 
-import removeArticle from "./removeArticle";
+import removeArticle from "../helpers/removeArticle";
 
 class DirectoryListing extends React.Component {
   state = { path: [] };
