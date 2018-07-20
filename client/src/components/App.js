@@ -1,18 +1,20 @@
-import React, { Component } from "react";
-import { HashRouter, Route } from "react-router-dom";
+import React from "react";
+import { HashRouter, Route, Switch } from "react-router-dom";
 
 import Browser from "../containers/Browser";
+import Controls from "../containers/Controls";
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div>
         <HashRouter>
-          <div>
+          <Switch>
             <Route path="/:path+" component={Browser} />
             <Route path="/" exact component={Browser} />
-          </div>
+          </Switch>
         </HashRouter>
+        <Controls />
       </div>
     );
   }

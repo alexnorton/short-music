@@ -1,7 +1,26 @@
 import { combineReducers } from "redux";
+import { PLAYING, TIME_UPDATE, LOADED_METADATA } from "../actions";
 
-const player = (state = {}, action) => {
+const player = (
+  state = { playing: false, duration: 0, currentTime: 0 },
+  action
+) => {
   switch (action.type) {
+    case PLAYING:
+      return {
+        ...state,
+        playing: true,
+      };
+    case TIME_UPDATE:
+      return {
+        ...state,
+        currentTime: action.time,
+      };
+    case LOADED_METADATA:
+      return {
+        ...state,
+        duration: action.duration,
+      };
     default:
       return state;
   }

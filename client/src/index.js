@@ -2,14 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
-import Player from "./Player";
+import Player from "./player/Player";
 import App from "./components/App";
 import configureStore from "./store/configureStore";
 
 import "./index.css";
 
 const player = new Player();
-
 const store = configureStore(player);
 
 ReactDOM.render(
