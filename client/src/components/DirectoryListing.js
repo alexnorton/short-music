@@ -1,7 +1,23 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import removeArticle from "../helpers/removeArticle";
+
+const FileButton = styled.button`
+  background: none !important;
+  color: #2980b9;
+  border: none;
+  padding: 0 !important;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  outline: none;
+
+  :hover {
+    color: #3498db;
+  }
+`;
 
 const DirectoryListing = ({ data, path, onSelectFile }) => (
   <div>
@@ -35,15 +51,14 @@ const DirectoryListing = ({ data, path, onSelectFile }) => (
             .sort((a, b) => removeArticle(a).localeCompare(removeArticle(b)))
             .map(file => (
               <li key={file}>
-                <button
-                  href="#play"
+                <FileButton
                   onClick={e => {
                     e.preventDefault();
                     onSelectFile([...path, file].join("/"));
                   }}
                 >
                   {file}
-                </button>
+                </FileButton>
               </li>
             ))}
         </ul>
