@@ -45,7 +45,7 @@ class Browser extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  playFile: file => dispatch(playFile(file)),
+  playFile: (path, file) => dispatch(playFile(path, file)),
 });
 
 export default connect(

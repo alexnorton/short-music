@@ -54,7 +54,7 @@ const DirectoryListing = ({ data, path, onSelectFile }) => (
                 <FileButton
                   onClick={e => {
                     e.preventDefault();
-                    onSelectFile([...path, file].join("/"));
+                    onSelectFile(path, file);
                   }}
                 >
                   {file}
