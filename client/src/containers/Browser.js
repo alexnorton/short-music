@@ -26,8 +26,15 @@ class Browser extends React.Component {
       path,
     });
 
-    const req = await fetch(`/browse?path=${path.join("/")}`);
-    const data = await req.json();
+    const req = await fetch(`/data/${path.join("/")}`);
+    const json = await req.json();
+
+    const data = {
+      directories: json
+        .filter(item => item.type === "directory")
+        .map(item => item.name),
+      files: json.filter(item => item.type === "file").map(item => item.name),
+    };
 
     this.setState({
       data,

@@ -12,7 +12,7 @@ class Player {
   }
 
   playFile(path, file) {
-    this.audio.src = `/get?path=${path.join("/")}&file=${file}`;
+    this.audio.src = `/data/${[...path, file].join("/")}`;
     this.audio.play();
   }
 
