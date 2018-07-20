@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
-const Controls = ({ playing, duration, currentTime }) => (
+import { play, pause } from "../actions";
+
+const Controls = ({ playing, duration, currentTime, onPlay, onPause }) => (
   <Fragment>
     <p>
       <strong>Playing:</strong> {playing ? "yes" : "no"}
@@ -12,6 +14,9 @@ const Controls = ({ playing, duration, currentTime }) => (
     <p>
       <strong>Current time:</strong> {currentTime}
     </p>
+    <button onClick={playing ? onPause : onPlay}>
+      {playing ? "Pause" : "Play"}
+    </button>
   </Fragment>
 );
 
@@ -21,4 +26,12 @@ const mapStateToProps = ({ player: { playing, duration, currentTime } }) => ({
   currentTime,
 });
 
-export default connect(mapStateToProps)(Controls);
+const mapDispatchToProps = dispatch => ({
+  onPlay: () => dispatch(play()),
+  onPause: () => dispatch(pause()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Controls);

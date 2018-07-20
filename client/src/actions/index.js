@@ -5,9 +5,20 @@ export const playFile = (path, file) => ({
   file,
 });
 
+export const PLAY = "PLAY";
+export const play = () => ({ type: PLAY });
+
+export const PAUSE = "PAUSE";
+export const pause = () => ({ type: PAUSE });
+
 export const PLAYING = "PLAYING";
 export const playing = () => ({
   type: PLAYING,
+});
+
+export const PAUSED = "PAUSED";
+export const paused = () => ({
+  type: PAUSED,
 });
 
 export const TIME_UPDATE = "TIME_UPDATE";

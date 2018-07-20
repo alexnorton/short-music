@@ -2,21 +2,29 @@ class Player {
   constructor() {
     this.audio = document.createElement("audio");
 
-    this.audio.addEventListener("play", this.handlePlay.bind(this));
+    this.audio.addEventListener("playing", this.handlePlaying.bind(this));
     this.audio.addEventListener("timeupdate", this.handleTimeUpdate.bind(this));
     this.audio.addEventListener(
       "loadedmetadata",
       this.handleLoadedMetadata.bind(this)
     );
+    this.audio.addEventListener("pause", this.handlePause.bind(this));
   }
 
   playFile(path, file) {
-    console.log("playFile", path, file);
     this.audio.src = `/get?path=${path.join("/")}&file=${file}`;
     this.audio.play();
   }
 
-  handlePlay() {
+  play() {
+    this.audio.play();
+  }
+
+  pause() {
+    this.audio.pause();
+  }
+
+  handlePlaying() {
     if (this.onPlaying) {
       this.onPlaying();
     }
@@ -31,6 +39,12 @@ class Player {
   handleLoadedMetadata() {
     if (this.onLoadedMetadata) {
       this.onLoadedMetadata(this.audio.duration);
+    }
+  }
+
+  handlePause() {
+    if (this.onPause) {
+      this.onPause();
     }
   }
 }

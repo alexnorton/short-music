@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { PLAYING, TIME_UPDATE, LOADED_METADATA } from "../actions";
+import { PLAYING, PAUSED, TIME_UPDATE, LOADED_METADATA } from "../actions";
 
 const player = (
   state = { playing: false, duration: 0, currentTime: 0 },
@@ -10,6 +10,11 @@ const player = (
       return {
         ...state,
         playing: true,
+      };
+    case PAUSED:
+      return {
+        ...state,
+        playing: false,
       };
     case TIME_UPDATE:
       return {
