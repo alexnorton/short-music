@@ -19,3 +19,9 @@ export const loadedMetadata = duration => ({
   type: LOADED_METADATA,
   duration,
 });
+
+export const PROGRESS = "PROGRESS";
+export const progress = seekableTo => ({
+  type: PROGRESS,
+  seekableTo,
+});

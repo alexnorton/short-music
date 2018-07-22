@@ -9,6 +9,7 @@ class Player {
       this.handleLoadedMetadata.bind(this)
     );
     this.audio.addEventListener("pause", this.handlePause.bind(this));
+    this.audio.addEventListener("progress", this.handleProgress.bind(this));
   }
 
   playFile(path, file) {
@@ -45,6 +46,17 @@ class Player {
   handlePause() {
     if (this.onPause) {
       this.onPause();
+    }
+  }
+
+  handleProgress() {
+    if (this.onProgress) {
+      const seekableTo =
+        this.audio.seekable.length > 0
+          ? this.audio.seekable.end(this.audio.seekable.length - 1)
+          : 0;
+
+      this.onProgress(seekableTo);
     }
   }
 }

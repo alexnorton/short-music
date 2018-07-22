@@ -1,5 +1,11 @@
 import { PLAY_FILE, PLAY, PAUSE } from "../actions/user";
-import { playing, paused, timeUpdate, loadedMetadata } from "../actions/player";
+import {
+  playing,
+  paused,
+  timeUpdate,
+  loadedMetadata,
+  progress,
+} from "../actions/player";
 
 const handleAction = (player, action) => {
   switch (action.type) {
@@ -23,6 +29,7 @@ const playerMiddleware = player => ({ dispatch }) => {
   player.onPause = () => dispatch(paused());
   player.onTimeUpdate = time => dispatch(timeUpdate(time));
   player.onLoadedMetadata = duration => dispatch(loadedMetadata(duration));
+  player.onProgress = seekableTo => dispatch(progress(seekableTo));
 
   return next => action => {
     handleAction(player, action);
