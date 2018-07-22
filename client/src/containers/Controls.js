@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
-import { play, pause } from "../actions";
+import { play, pause } from "../actions/user";
 
 const Controls = ({ playing, duration, currentTime, onPlay, onPause }) => (
   <Fragment>

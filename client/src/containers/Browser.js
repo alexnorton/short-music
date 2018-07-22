@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import DirectoryListing from "../components/DirectoryListing";
-import { playFile } from "../actions";
+import { playFile } from "../actions/user";
 
 class Browser extends React.Component {
   state = { path: [] };

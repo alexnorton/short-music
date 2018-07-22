@@ -1,12 +1,5 @@
-import {
-  PLAY_FILE,
-  PLAY,
-  PAUSE,
-  playing,
-  paused,
-  timeUpdate,
-  loadedMetadata,
-} from "../actions";
+import { PLAY_FILE, PLAY, PAUSE } from "../actions/user";
+import { playing, paused, timeUpdate, loadedMetadata } from "../actions/player";
 
 const handleAction = (player, action) => {
   switch (action.type) {
