@@ -26,7 +26,7 @@ class Browser extends React.Component {
       path,
     });
 
-    const req = await fetch(`/data/${path.join("/")}`);
+    const req = await fetch(`/data/${[...path, ""].join("/")}`);
     const json = await req.json();
 
     const data = {
