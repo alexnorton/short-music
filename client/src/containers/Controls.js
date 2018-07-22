@@ -2,8 +2,16 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 import { play, pause } from "../actions/user";
+import ProgressBar from "../components/ProgressBar";
 
-const Controls = ({ playing, duration, currentTime, onPlay, onPause }) => (
+const Controls = ({
+  playing,
+  duration,
+  currentTime,
+  onPlay,
+  onPause,
+  seekableTo,
+}) => (
   <Fragment>
     <p>
       <strong>Playing:</strong> {playing ? "yes" : "no"}
@@ -17,6 +25,11 @@ const Controls = ({ playing, duration, currentTime, onPlay, onPause }) => (
     <button onClick={playing ? onPause : onPlay}>
       {playing ? "Pause" : "Play"}
     </button>
+    <ProgressBar
+      duration={duration}
+      currentTime={currentTime}
+      seekableTo={seekableTo}
+    />
   </Fragment>
 );
 

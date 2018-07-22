@@ -4,10 +4,11 @@ import {
   PAUSED,
   TIME_UPDATE,
   LOADED_METADATA,
+  PROGRESS,
 } from "../actions/player";
 
 const player = (
-  state = { playing: false, duration: 0, currentTime: 0 },
+  state = { playing: false, duration: 0, currentTime: 0, seekableTo: 0 },
   action
 ) => {
   switch (action.type) {
@@ -30,6 +31,11 @@ const player = (
       return {
         ...state,
         duration: action.duration,
+      };
+    case PROGRESS:
+      return {
+        ...state,
+        seekableTo: action.seekableTo,
       };
     default:
       return state;
