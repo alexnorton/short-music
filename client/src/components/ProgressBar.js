@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 const ProgressContainer = styled.div`
-  height: 15px;
+  height: 4px;
   width: 100%;
-  border: 1px solid #333;
   background-color: #ddd;
   position: relative;
 `;
@@ -17,7 +16,7 @@ const SeekableBar = styled.div`
 
 const PlayedBar = styled.div`
   height: 100%;
-  background-color: red;
+  background-color: #e74c3c;
   position: absolute;
 `;
 
