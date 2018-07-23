@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import removeArticle from "../helpers/removeArticle";
+import filenameToComponents from "../helpers/filenameToComponents";
 
 const Container = styled.div`
   max-width: 800px;
@@ -44,12 +45,21 @@ const FileButton = styled.button`
   border: none;
   padding: 0 !important;
   font: inherit;
-  text-decoration: underline;
+  /* text-decoration: underline; */
   cursor: pointer;
   outline: none;
 
   :hover {
     color: #3498db;
+  }
+`;
+
+const MutedButtonText = styled.span`
+  color: #7f8c8d;
+  font-size: 0.8em;
+
+  ${FileButton}:hover & {
+    color: #95a5a6;
   }
 `;
 
@@ -76,16 +86,21 @@ const DirectoryListing = ({ data, path, onSelectFile }) => (
       <ContentTypeListing
         items={data.files}
         heading="Files"
-        renderItem={file => (
-          <FileButton
-            onClick={e => {
-              e.preventDefault();
-              onSelectFile(path, file);
-            }}
-          >
-            {file}
-          </FileButton>
-        )}
+        renderItem={file => {
+          const { number, name, extension } = filenameToComponents(file);
+          return (
+            <FileButton
+              onClick={e => {
+                e.preventDefault();
+                onSelectFile(path, file);
+              }}
+            >
+              {number && <MutedButtonText>{number}</MutedButtonText>}
+              {name}
+              {extension && <MutedButtonText>{extension}</MutedButtonText>}
+            </FileButton>
+          );
+        }}
       />
     )}
   </Container>
