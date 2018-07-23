@@ -1,5 +1,5 @@
 const filenameToComponents = filename => {
-  const match = filename.match(/^(\d+(?:-\d+)?)?(.+?)(\..+)?$/);
+  const match = filename.match(/^(\d+(?:-\d+)?)?(.+?)(\.[^.]+)?$/);
 
   const [, number, name, extension] = match;
 
