@@ -5,10 +5,17 @@ import {
   TIME_UPDATE,
   LOADED_METADATA,
   PROGRESS,
+  QUEUE_CHANGED,
 } from "../actions/player";
 
 const player = (
-  state = { playing: false, duration: 0, currentTime: 0, seekableTo: 0 },
+  state = {
+    playing: false,
+    duration: 0,
+    currentTime: 0,
+    seekableTo: 0,
+    queue: [],
+  },
   action
 ) => {
   switch (action.type) {
@@ -36,6 +43,11 @@ const player = (
       return {
         ...state,
         seekableTo: action.seekableTo,
+      };
+    case QUEUE_CHANGED:
+      return {
+        ...state,
+        queue: action.queue,
       };
     default:
       return state;

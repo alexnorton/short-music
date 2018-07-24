@@ -34,7 +34,9 @@ const ContentTypeListing = ({ items, heading, renderItem }) => (
     <ContentList>
       {items
         .sort((a, b) => removeArticle(a).localeCompare(removeArticle(b)))
-        .map(item => <ContentItem key={item}>{renderItem(item)}</ContentItem>)}
+        .map((item, index) => (
+          <ContentItem key={item}>{renderItem(item, index)}</ContentItem>
+        ))}
     </ContentList>
   </Fragment>
 );
@@ -86,13 +88,15 @@ const DirectoryListing = ({ data, path, onSelectFile }) => (
       <ContentTypeListing
         items={data.files}
         heading="Files"
-        renderItem={file => {
+        renderItem={(file, index) => {
           const { number, name, extension } = filenameToComponents(file);
           return (
             <FileButton
               onClick={e => {
                 e.preventDefault();
-                onSelectFile(path, file);
+                onSelectFile(
+                  data.files.slice(index).map(file => [...path, file])
+                );
               }}
             >
               {number && <MutedButtonText>{number}</MutedButtonText>}

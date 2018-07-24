@@ -25,3 +25,9 @@ export const progress = seekableTo => ({
   type: PROGRESS,
   seekableTo,
 });
+
+export const QUEUE_CHANGED = "QUEUE_CHANGED";
+export const queueChanged = queue => ({
+  type: QUEUE_CHANGED,
+  queue,
+});

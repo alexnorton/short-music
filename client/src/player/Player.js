@@ -1,6 +1,7 @@
 class Player {
   constructor() {
     this.audio = document.createElement("audio");
+    this.queue = [];
 
     this.audio.addEventListener("playing", this.handlePlaying.bind(this));
     this.audio.addEventListener("timeupdate", this.handleTimeUpdate.bind(this));
@@ -11,6 +12,8 @@ class Player {
     this.audio.addEventListener("pause", this.handlePause.bind(this));
     this.audio.addEventListener("progress", this.handleProgress.bind(this));
   }
+
+  // Control methods
 
   playFile(path, file) {
     this.audio.src = `/data/${[...path, file].join("/")}`;
@@ -24,6 +27,20 @@ class Player {
   pause() {
     this.audio.pause();
   }
+
+  loadAndPlayQueue(files) {
+    this.updateQueue(files);
+  }
+
+  updateQueue(files) {
+    this.queue = files;
+
+    if (this.onQueueChanged) {
+      this.onQueueChanged(this.queue);
+    }
+  }
+
+  // Event handlers
 
   handlePlaying() {
     if (this.onPlaying) {

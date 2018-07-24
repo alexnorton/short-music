@@ -1,10 +1,11 @@
-import { PLAY_FILE, PLAY, PAUSE } from "../actions/user";
+import { PLAY_FILE, PLAY, PAUSE, LOAD_AND_PLAY_QUEUE } from "../actions/user";
 import {
   playing,
   paused,
   timeUpdate,
   loadedMetadata,
   progress,
+  queueChanged,
 } from "../actions/player";
 
 const handleAction = (player, action) => {
@@ -19,6 +20,9 @@ const handleAction = (player, action) => {
     case PAUSE:
       player.pause();
       break;
+    case LOAD_AND_PLAY_QUEUE:
+      player.loadAndPlayQueue(action.queue);
+      break;
     default:
       break;
   }
@@ -30,6 +34,7 @@ const playerMiddleware = player => ({ dispatch }) => {
   player.onTimeUpdate = time => dispatch(timeUpdate(time));
   player.onLoadedMetadata = duration => dispatch(loadedMetadata(duration));
   player.onProgress = seekableTo => dispatch(progress(seekableTo));
+  player.onQueueChanged = queue => dispatch(queueChanged(queue));
 
   return next => action => {
     handleAction(player, action);

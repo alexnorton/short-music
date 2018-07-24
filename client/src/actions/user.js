@@ -10,3 +10,6 @@ export const play = () => ({ type: PLAY });
 
 export const PAUSE = "PAUSE";
 export const pause = () => ({ type: PAUSE });
+
+export const LOAD_AND_PLAY_QUEUE = "LOAD_AND_PLAY_QUEUE";
+export const loadAndPlayQueue = queue => ({ type: LOAD_AND_PLAY_QUEUE, queue });

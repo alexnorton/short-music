@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import DirectoryListing from "../components/DirectoryListing";
-import { playFile } from "../actions/user";
+import { loadAndPlayQueue } from "../actions/user";
 
 class Browser extends React.Component {
   state = { path: [] };
@@ -43,16 +43,20 @@ class Browser extends React.Component {
 
   render() {
     const { path, data } = this.state;
-    const { playFile } = this.props;
+    const { loadAndPlayQueue } = this.props;
 
     return data ? (
-      <DirectoryListing path={path} data={data} onSelectFile={playFile} />
+      <DirectoryListing
+        path={path}
+        data={data}
+        onSelectFile={loadAndPlayQueue}
+      />
     ) : null;
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  playFile: (path, file) => dispatch(playFile(path, file)),
+  loadAndPlayQueue: queue => dispatch(loadAndPlayQueue(queue)),
 });
 
 export default connect(
