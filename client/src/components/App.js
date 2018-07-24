@@ -16,6 +16,7 @@ const Main = styled.div`
   flex-direction: column;
   height: 100%;
   flex: 1;
+  position: relative;
 `;
 
 const Side = styled.div`
@@ -28,7 +29,6 @@ const Side = styled.div`
 const Content = styled.div`
   flex: 1;
   overflow: scroll;
-  position: relative;
 `;
 
 const QueueToggle = styled.button`
