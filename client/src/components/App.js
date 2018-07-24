@@ -56,11 +56,11 @@ class App extends React.Component {
                 <Route path="/" exact component={Browser} />
               </Switch>
             </BrowserRouter>
-            <QueueToggle onClick={this.toggleQueue}>
-              {this.state.showQueue ? "→" : "←"}
-            </QueueToggle>
           </Content>
           <Controls />
+          <QueueToggle onClick={this.toggleQueue}>
+            {this.state.showQueue ? "→" : "←"}
+          </QueueToggle>
         </Main>
         {this.state.showQueue && (
           <Side>
