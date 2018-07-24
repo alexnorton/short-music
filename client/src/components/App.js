@@ -19,7 +19,8 @@ const Main = styled.div`
 `;
 
 const Side = styled.div`
-  width: 400px;
+  width: 40%;
+  max-width: 400px;
   border-left: 1px solid #333;
   overflow: scroll;
 `;
