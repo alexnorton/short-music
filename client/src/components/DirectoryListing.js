@@ -47,7 +47,7 @@ const FileButton = styled.button`
   border: none;
   padding: 0 !important;
   font: inherit;
-  /* text-decoration: underline; */
+  text-align: left;
   cursor: pointer;
   outline: none;
 
