@@ -12,6 +12,7 @@ class Player {
     );
     this.audio.addEventListener("pause", this.handlePause.bind(this));
     this.audio.addEventListener("progress", this.handleProgress.bind(this));
+    this.audio.addEventListener("ended", this.handleEnded.bind(this));
   }
 
   // Control methods
@@ -43,10 +44,11 @@ class Player {
   }
 
   playQueue(index) {
-    const file = this.queue[index];
+    this.queueIndex = index;
+    const file = this.queue[this.queueIndex];
 
     if (this.onFileChanged) {
-      this.onFileChanged(file, index);
+      this.onFileChanged(file, this.queueIndex);
     }
 
     this.playFile(file);
@@ -86,6 +88,14 @@ class Player {
           : 0;
 
       this.onProgress(seekableTo);
+    }
+  }
+
+  handleEnded() {
+    const newIndex = this.queueIndex + 1;
+
+    if (this.queue[newIndex]) {
+      this.playQueue(newIndex);
     }
   }
 }
