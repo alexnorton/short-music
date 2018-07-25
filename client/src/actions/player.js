@@ -1,3 +1,10 @@
+export const PLAY = "PLAY";
+export const play = (file, queueIndex) => ({
+  type: PLAY,
+  file,
+  queueIndex,
+});
+
 export const PLAYING = "PLAYING";
 export const playing = () => ({
   type: PLAYING,

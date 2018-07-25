@@ -6,6 +6,7 @@ import {
   loadedMetadata,
   progress,
   queueChanged,
+  play,
 } from "../actions/player";
 
 const handleAction = (player, action) => {
@@ -35,6 +36,7 @@ const playerMiddleware = player => ({ dispatch }) => {
   player.onLoadedMetadata = duration => dispatch(loadedMetadata(duration));
   player.onProgress = seekableTo => dispatch(progress(seekableTo));
   player.onQueueChanged = queue => dispatch(queueChanged(queue));
+  player.onPlay = (file, index) => dispatch(play(file, index));
 
   return next => action => {
     handleAction(player, action);

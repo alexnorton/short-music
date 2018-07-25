@@ -23,6 +23,11 @@ const ControlsRow = styled.div`
   justify-content: center;
 `;
 
+const FileRow = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const TimesRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -39,6 +44,7 @@ const Controls = ({
   onPlay,
   onPause,
   seekableTo,
+  file,
 }) => (
   <StyledControls>
     <ControlsContainer>
@@ -47,6 +53,7 @@ const Controls = ({
           {playing ? "Pause" : "Play"}
         </PlayButton>
       </ControlsRow>
+      <FileRow>{file ? file[file.length - 1] : "Stopped"}</FileRow>
       <TimesRow>
         <div>{secondsToTimecode(currentTime)}</div>
         <div>-{secondsToTimecode(duration - currentTime)}</div>
@@ -60,10 +67,13 @@ const Controls = ({
   </StyledControls>
 );
 
-const mapStateToProps = ({ player: { playing, duration, currentTime } }) => ({
+const mapStateToProps = ({
+  player: { playing, duration, currentTime, queue, queueIndex },
+}) => ({
   playing,
   duration,
   currentTime,
+  file: queue[queueIndex],
 });
 
 const mapDispatchToProps = dispatch => ({

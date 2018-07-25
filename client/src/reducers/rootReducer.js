@@ -6,6 +6,7 @@ import {
   LOADED_METADATA,
   PROGRESS,
   QUEUE_CHANGED,
+  PLAY,
 } from "../actions/player";
 
 const player = (
@@ -15,6 +16,7 @@ const player = (
     currentTime: 0,
     seekableTo: 0,
     queue: [],
+    queueIndex: null,
   },
   action
 ) => {
@@ -48,6 +50,11 @@ const player = (
       return {
         ...state,
         queue: action.queue,
+      };
+    case PLAY:
+      return {
+        ...state,
+        queueIndex: action.queueIndex,
       };
     default:
       return state;

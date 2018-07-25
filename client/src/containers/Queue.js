@@ -18,15 +18,16 @@ const QueueItem = styled.li`
   }
 `;
 
-const Queue = ({ queue }) => (
+const Queue = ({ queue, queueIndex }) => (
   <StyledQueue>
     {queue.length > 0 ? (
       <QueueList>
-        {queue.map(path => {
+        {queue.map((path, index) => {
           const file = path[path.length - 1];
           const directoryPath = path.slice(0, path.length - 1);
           return (
             <QueueItem key={path.join("/")}>
+              {queueIndex === index && "▶ "}
               {file}
               <br />
               {directoryPath.join(" / ")}
@@ -40,8 +41,9 @@ const Queue = ({ queue }) => (
   </StyledQueue>
 );
 
-const mapStateToProps = ({ player: { queue } }) => ({
+const mapStateToProps = ({ player: { queue, queueIndex } }) => ({
   queue,
+  queueIndex,
 });
 
 export default connect(mapStateToProps)(Queue);
