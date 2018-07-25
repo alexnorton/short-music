@@ -23,12 +23,12 @@ const Side = styled.div`
   width: 40%;
   max-width: 400px;
   border-left: 1px solid #333;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const Content = styled.div`
   flex: 1;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const QueueToggle = styled.button`
