@@ -6,7 +6,7 @@ import {
   LOADED_METADATA,
   PROGRESS,
   QUEUE_CHANGED,
-  PLAY,
+  FILE_CHANGED,
 } from "../actions/player";
 
 const player = (
@@ -51,7 +51,7 @@ const player = (
         ...state,
         queue: action.queue,
       };
-    case PLAY:
+    case FILE_CHANGED:
       return {
         ...state,
         queueIndex: action.queueIndex,

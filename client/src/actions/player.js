@@ -1,6 +1,6 @@
-export const PLAY = "PLAY";
-export const play = (file, queueIndex) => ({
-  type: PLAY,
+export const FILE_CHANGED = "FILE_CHANGED";
+export const fileChanged = (file, queueIndex) => ({
+  type: FILE_CHANGED,
   file,
   queueIndex,
 });

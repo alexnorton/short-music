@@ -45,8 +45,8 @@ class Player {
   playQueue(index) {
     const file = this.queue[index];
 
-    if (this.onPlay) {
-      this.onPlay(file, index);
+    if (this.onFileChanged) {
+      this.onFileChanged(file, index);
     }
 
     this.playFile(file);
