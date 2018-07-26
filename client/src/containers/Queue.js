@@ -6,6 +6,10 @@ const StyledQueue = styled.div`
   padding: 10px;
 `;
 
+const QueueHeading = styled.h2`
+  margin-top: 0;
+`;
+
 const QueueList = styled.ul`
   margin: 0;
   padding: 0;
@@ -20,6 +24,7 @@ const QueueItem = styled.li`
 
 const Queue = ({ queue, queueIndex }) => (
   <StyledQueue>
+    <QueueHeading>Up next</QueueHeading>
     {queue.length > 0 ? (
       <QueueList>
         {queue.map((path, index) => {
