@@ -1,8 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import FaPlay from "react-icons/lib/fa/play";
+import FaPause from "react-icons/lib/fa/pause";
+import FaForward from "react-icons/lib/fa/forward";
+import FaBackward from "react-icons/lib/fa/backward";
 
-import { play, pause } from "../actions/user";
+import { play, pause, next, previous } from "../actions/user";
 import ProgressBar from "../components/ProgressBar";
 import secondsToTimecode from "../helpers/secondsToTimecode";
 
@@ -33,8 +37,22 @@ const TimesRow = styled.div`
   justify-content: space-between;
 `;
 
-const PlayButton = styled.button`
-  font-size: 20px;
+const ControlsButton = styled.button`
+  font-size: 24px;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0 10px;
+  outline: none;
+  opacity: 0.8;
+
+  :hover {
+    opacity: 1;
+  }
+`;
+
+const PlayButton = ControlsButton.extend`
+  font-size: 36px;
 `;
 
 const Controls = ({
@@ -45,13 +63,21 @@ const Controls = ({
   onPause,
   seekableTo,
   file,
+  onPrevious,
+  onNext,
 }) => (
   <StyledControls>
     <ControlsContainer>
       <ControlsRow>
+        <ControlsButton onClick={onPrevious}>
+          <FaBackward />
+        </ControlsButton>
         <PlayButton onClick={playing ? onPause : onPlay}>
-          {playing ? "Pause" : "Play"}
+          {playing ? <FaPause /> : <FaPlay />}
         </PlayButton>
+        <ControlsButton onClick={onNext}>
+          <FaForward />
+        </ControlsButton>
       </ControlsRow>
       <FileRow>{file ? file[file.length - 1] : "Stopped"}</FileRow>
       <TimesRow>
@@ -79,6 +105,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => ({
   onPlay: () => dispatch(play()),
   onPause: () => dispatch(pause()),
+  onNext: () => dispatch(next()),
+  onPrevious: () => dispatch(previous()),
 });
 
 export default connect(

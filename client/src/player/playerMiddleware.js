@@ -1,4 +1,11 @@
-import { PLAY_FILE, PLAY, PAUSE, LOAD_AND_PLAY_QUEUE } from "../actions/user";
+import {
+  PLAY_FILE,
+  PLAY,
+  PAUSE,
+  LOAD_AND_PLAY_QUEUE,
+  NEXT,
+  PREVIOUS,
+} from "../actions/user";
 import {
   playing,
   paused,
@@ -23,6 +30,12 @@ const handleAction = (player, action) => {
       break;
     case LOAD_AND_PLAY_QUEUE:
       player.loadAndPlayQueue(action.queue);
+      break;
+    case PREVIOUS:
+      player.previous();
+      break;
+    case NEXT:
+      player.next();
       break;
     default:
       break;

@@ -54,6 +54,22 @@ class Player {
     this.playFile(file);
   }
 
+  previous() {
+    const newIndex = this.queueIndex - 1;
+
+    if (this.queue[newIndex]) {
+      this.playQueue(newIndex);
+    }
+  }
+
+  next() {
+    const newIndex = this.queueIndex + 1;
+
+    if (this.queue[newIndex]) {
+      this.playQueue(newIndex);
+    }
+  }
+
   // Event handlers
 
   handlePlaying() {

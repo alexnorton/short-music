@@ -13,3 +13,9 @@ export const pause = () => ({ type: PAUSE });
 
 export const LOAD_AND_PLAY_QUEUE = "LOAD_AND_PLAY_QUEUE";
 export const loadAndPlayQueue = queue => ({ type: LOAD_AND_PLAY_QUEUE, queue });
+
+export const PREVIOUS = "PREVIOUS";
+export const previous = () => ({ type: PREVIOUS });
+
+export const NEXT = "NEXT";
+export const next = () => ({ type: NEXT });
