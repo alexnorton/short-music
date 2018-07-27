@@ -65,47 +65,57 @@ const MutedButtonText = styled.span`
   }
 `;
 
-const DirectoryListing = ({ data, path, onSelectFile }) => (
+const DirectoryListing = ({ data, error, path, onSelectFile }) => (
   <Container>
-    <DirectoryHeading>
-      {path && path.length > 0 ? path.join(" / ") : "Home"}
-    </DirectoryHeading>
-    {path.length > 0 && (
-      <Link to={"/" + path.slice(0, path.length - 1).join("/")}>
-        Up one level
-      </Link>
-    )}
-    {data.directories.length > 0 && (
-      <ContentTypeListing
-        items={data.directories}
-        heading="Directories"
-        renderItem={directory => (
-          <Link to={"/" + [...path, directory].join("/")}>{directory}</Link>
+    {error ? (
+      <Fragment>
+        <DirectoryHeading>Error {error.code}</DirectoryHeading>
+      </Fragment>
+    ) : data ? (
+      <Fragment>
+        <DirectoryHeading>
+          {path && path.length > 0 ? path.join(" / ") : "Home"}
+        </DirectoryHeading>
+        {path.length > 0 && (
+          <Link to={"/" + path.slice(0, path.length - 1).join("/")}>
+            Up one level
+          </Link>
         )}
-      />
-    )}
-    {data.files.length > 0 && (
-      <ContentTypeListing
-        items={data.files}
-        heading="Files"
-        renderItem={(file, index) => {
-          const { number, name, extension } = filenameToComponents(file);
-          return (
-            <FileButton
-              onClick={e => {
-                e.preventDefault();
-                onSelectFile(
-                  data.files.slice(index).map(file => [...path, file])
-                );
-              }}
-            >
-              {number && <MutedButtonText>{number}</MutedButtonText>}
-              {name}
-              {extension && <MutedButtonText>{extension}</MutedButtonText>}
-            </FileButton>
-          );
-        }}
-      />
+        {data.directories.length > 0 && (
+          <ContentTypeListing
+            items={data.directories}
+            heading="Directories"
+            renderItem={directory => (
+              <Link to={"/" + [...path, directory].join("/")}>{directory}</Link>
+            )}
+          />
+        )}
+        {data.files.length > 0 && (
+          <ContentTypeListing
+            items={data.files}
+            heading="Files"
+            renderItem={(file, index) => {
+              const { number, name, extension } = filenameToComponents(file);
+              return (
+                <FileButton
+                  onClick={e => {
+                    e.preventDefault();
+                    onSelectFile(
+                      data.files.slice(index).map(file => [...path, file])
+                    );
+                  }}
+                >
+                  {number && <MutedButtonText>{number}</MutedButtonText>}
+                  {name}
+                  {extension && <MutedButtonText>{extension}</MutedButtonText>}
+                </FileButton>
+              );
+            }}
+          />
+        )}
+      </Fragment>
+    ) : (
+      "Loading..."
     )}
   </Container>
 );

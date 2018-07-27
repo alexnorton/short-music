@@ -5,7 +5,7 @@ import DirectoryListing from "../components/DirectoryListing";
 import { loadAndPlayQueue } from "../actions/user";
 
 class Browser extends React.Component {
-  state = { path: [] };
+  state = { path: [], data: null, error: null };
 
   async componentDidMount() {
     await this.updateData();
@@ -27,6 +27,12 @@ class Browser extends React.Component {
     });
 
     const req = await fetch(`/data/${[...path, ""].join("/")}`);
+
+    if (req.status !== 200) {
+      const body = await req.text();
+      return this.setState({ error: { code: req.status, message: body } });
+    }
+
     const json = await req.json();
 
     const data = {
@@ -42,16 +48,17 @@ class Browser extends React.Component {
   }
 
   render() {
-    const { path, data } = this.state;
+    const { path, data, error } = this.state;
     const { loadAndPlayQueue } = this.props;
 
-    return data ? (
+    return (
       <DirectoryListing
         path={path}
         data={data}
+        error={error}
         onSelectFile={loadAndPlayQueue}
       />
-    ) : null;
+    );
   }
 }
 
