@@ -18,6 +18,11 @@ class Browser extends React.Component {
   }
 
   async updateData() {
+    this.setState({
+      data: null,
+      error: null,
+    });
+
     const path = this.props.match.params.path
       ? this.props.match.params.path.split("/")
       : [];
