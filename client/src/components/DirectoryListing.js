@@ -115,7 +115,9 @@ const DirectoryListing = ({ data, error, path, onSelectFile }) => (
         )}
       </Fragment>
     ) : (
-      "Loading..."
+      <Fragment>
+        <DirectoryHeading>Loading...</DirectoryHeading>
+      </Fragment>
     )}
   </Container>
 );
