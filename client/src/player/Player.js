@@ -55,10 +55,14 @@ class Player {
   }
 
   previous() {
-    const newIndex = this.queueIndex - 1;
+    if (this.audio.currentTime < 3) {
+      const newIndex = this.queueIndex - 1;
 
-    if (this.queue[newIndex]) {
-      this.playQueue(newIndex);
+      if (this.queue[newIndex]) {
+        this.playQueue(newIndex);
+      }
+    } else {
+      this.seek(0);
     }
   }
 
@@ -68,6 +72,10 @@ class Player {
     if (this.queue[newIndex]) {
       this.playQueue(newIndex);
     }
+  }
+
+  seek(time) {
+    this.audio.currentTime = time;
   }
 
   // Event handlers
