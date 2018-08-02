@@ -4,15 +4,12 @@ class Player {
     this.queue = [];
     this.queueIndex = null;
 
-    this.audio.addEventListener("playing", this.handlePlaying.bind(this));
-    this.audio.addEventListener("timeupdate", this.handleTimeUpdate.bind(this));
-    this.audio.addEventListener(
-      "loadedmetadata",
-      this.handleLoadedMetadata.bind(this)
-    );
-    this.audio.addEventListener("pause", this.handlePause.bind(this));
-    this.audio.addEventListener("progress", this.handleProgress.bind(this));
-    this.audio.addEventListener("ended", this.handleEnded.bind(this));
+    this.audio.addEventListener("playing", this.handlePlaying);
+    this.audio.addEventListener("timeupdate", this.handleTimeUpdate);
+    this.audio.addEventListener("loadedmetadata", this.handleLoadedMetadata);
+    this.audio.addEventListener("pause", this.handlePause);
+    this.audio.addEventListener("progress", this.handleProgress);
+    this.audio.addEventListener("ended", this.handleEnded);
   }
 
   // Control methods
@@ -80,31 +77,31 @@ class Player {
 
   // Event handlers
 
-  handlePlaying() {
+  handlePlaying = () => {
     if (this.onPlaying) {
       this.onPlaying();
     }
-  }
+  };
 
-  handleTimeUpdate() {
+  handleTimeUpdate = () => {
     if (this.onTimeUpdate) {
       this.onTimeUpdate(this.audio.currentTime);
     }
-  }
+  };
 
-  handleLoadedMetadata() {
+  handleLoadedMetadata = () => {
     if (this.onLoadedMetadata) {
       this.onLoadedMetadata(this.audio.duration);
     }
-  }
+  };
 
-  handlePause() {
+  handlePause = () => {
     if (this.onPause) {
       this.onPause();
     }
-  }
+  };
 
-  handleProgress() {
+  handleProgress = () => {
     if (this.onProgress) {
       const seekableTo =
         this.audio.seekable.length > 0
@@ -113,15 +110,15 @@ class Player {
 
       this.onProgress(seekableTo);
     }
-  }
+  };
 
-  handleEnded() {
+  handleEnded = () => {
     const newIndex = this.queueIndex + 1;
 
     if (this.queue[newIndex]) {
       this.playQueue(newIndex);
     }
-  }
+  };
 }
 
 export default Player;
