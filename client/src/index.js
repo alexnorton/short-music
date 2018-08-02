@@ -6,7 +6,7 @@ import Player from "./player/Player";
 import App from "./components/App";
 import configureStore from "./store/configureStore";
 
-import "./index.css";
+import "./globalStyles";
 
 const player = new Player();
 const store = configureStore(player);
