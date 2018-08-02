@@ -64,7 +64,7 @@ const Controls = ({
   seekableTo,
   file,
   onPrevious,
-  onNext,
+  onNext
 }) => (
   <StyledControls>
     <ControlsContainer>
@@ -79,7 +79,7 @@ const Controls = ({
           <FaForward />
         </ControlsButton>
       </ControlsRow>
-      <FileRow>{file ? file[file.length - 1] : "Stopped"}</FileRow>
+      <FileRow>{file ? file.file[file.file.length - 1] : "Stopped"}</FileRow>
       <TimesRow>
         <div>{secondsToTimecode(currentTime)}</div>
         <div>-{secondsToTimecode(duration - currentTime)}</div>
@@ -94,19 +94,19 @@ const Controls = ({
 );
 
 const mapStateToProps = ({
-  player: { playing, duration, currentTime, queue, queueIndex },
+  player: { playing, duration, currentTime, queue, queueIndex }
 }) => ({
   playing,
   duration,
   currentTime,
-  file: queue[queueIndex],
+  file: queue[queueIndex]
 });
 
 const mapDispatchToProps = dispatch => ({
   onPlay: () => dispatch(play()),
   onPause: () => dispatch(pause()),
   onNext: () => dispatch(next()),
-  onPrevious: () => dispatch(previous()),
+  onPrevious: () => dispatch(previous())
 });
 
 export default connect(
