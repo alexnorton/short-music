@@ -1,3 +1,5 @@
+import uuidv4 from "uuid/v4";
+
 class Player {
   constructor() {
     this.audio = document.createElement("audio");
@@ -33,7 +35,7 @@ class Player {
   }
 
   updateQueue(files) {
-    this.queue = files;
+    this.queue = files.map(file => ({ file, id: uuidv4() }));
 
     if (this.onQueueChanged) {
       this.onQueueChanged(this.queue);
@@ -42,7 +44,7 @@ class Player {
 
   playQueue(index) {
     this.queueIndex = index;
-    const file = this.queue[this.queueIndex];
+    const file = this.queue[this.queueIndex].file;
 
     if (this.onFileChanged) {
       this.onFileChanged(file, this.queueIndex);
