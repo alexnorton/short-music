@@ -8,9 +8,14 @@ injectGlobal`
     margin: 0;
   }
 
+  html {
+    overflow: hidden;
+  }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     color: #333;
+    overflow: auto;
   }
 
   a {
