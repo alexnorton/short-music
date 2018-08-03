@@ -27,13 +27,13 @@ const Queue = ({ queue, queueIndex }) => (
     <QueueHeading>Up next</QueueHeading>
     {queue.length > 0 ? (
       <QueueList>
-        {queue.map((path, index) => {
-          const file = path[path.length - 1];
-          const directoryPath = path.slice(0, path.length - 1);
+        {queue.map(({ file, id }, index) => {
+          const filename = file[file.length - 1];
+          const directoryPath = file.slice(0, file.length - 1);
           return (
-            <QueueItem key={path.join("/")}>
+            <QueueItem key={id}>
               {queueIndex === index && "▶ "}
-              {file}
+              {filename}
               <br />
               {directoryPath.join(" / ")}
             </QueueItem>
@@ -48,7 +48,7 @@ const Queue = ({ queue, queueIndex }) => (
 
 const mapStateToProps = ({ player: { queue, queueIndex } }) => ({
   queue,
-  queueIndex,
+  queueIndex
 });
 
 export default connect(mapStateToProps)(Queue);
