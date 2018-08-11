@@ -29,6 +29,14 @@ class Player {
     this.audio.pause();
   }
 
+  toggle() {
+    if (this.audio.paused) {
+      this.play();
+      return;
+    }
+    this.pause();
+  }
+
   loadAndPlayQueue(files) {
     this.updateQueue(files);
     this.playQueueIndex(0);
