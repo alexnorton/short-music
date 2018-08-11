@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
+import { playQueueIndex } from "../actions/user";
+
 const StyledQueue = styled.div`
   padding: 10px;
 `;
@@ -22,7 +24,7 @@ const QueueItem = styled.li`
   }
 `;
 
-const Queue = ({ queue, queueIndex }) => (
+const Queue = ({ queue, queueIndex, playQueueIndex }) => (
   <StyledQueue>
     <QueueHeading>Up next</QueueHeading>
     {queue.length > 0 ? (
@@ -32,8 +34,10 @@ const Queue = ({ queue, queueIndex }) => (
           const directoryPath = file.slice(0, file.length - 1);
           return (
             <QueueItem key={id}>
-              {queueIndex === index && "▶ "}
-              {filename}
+              <button onClick={() => playQueueIndex(index)}>
+                {queueIndex === index && "▶ "}
+                {filename}
+              </button>
               <br />
               {directoryPath.join(" / ")}
             </QueueItem>
@@ -48,7 +52,14 @@ const Queue = ({ queue, queueIndex }) => (
 
 const mapStateToProps = ({ player: { queue, queueIndex } }) => ({
   queue,
-  queueIndex
+  queueIndex,
 });
 
-export default connect(mapStateToProps)(Queue);
+const mapDispatchToProps = dispatch => ({
+  playQueueIndex: index => dispatch(playQueueIndex(index)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Queue);

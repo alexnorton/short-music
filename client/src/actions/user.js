@@ -19,3 +19,6 @@ export const previous = () => ({ type: PREVIOUS });
 
 export const NEXT = "NEXT";
 export const next = () => ({ type: NEXT });
+
+export const PLAY_QUEUE_INDEX = "PLAY_QUEUE_INDEX";
+export const playQueueIndex = index => ({ type: PLAY_QUEUE_INDEX, index });

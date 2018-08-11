@@ -31,7 +31,7 @@ class Player {
 
   loadAndPlayQueue(files) {
     this.updateQueue(files);
-    this.playQueue(0);
+    this.playQueueIndex(0);
   }
 
   updateQueue(files) {
@@ -42,7 +42,7 @@ class Player {
     }
   }
 
-  playQueue(index) {
+  playQueueIndex(index) {
     this.queueIndex = index;
     const file = this.queue[this.queueIndex].file;
 
@@ -58,7 +58,7 @@ class Player {
       const newIndex = this.queueIndex - 1;
 
       if (this.queue[newIndex]) {
-        this.playQueue(newIndex);
+        this.playQueueIndex(newIndex);
       }
     } else {
       this.seek(0);
@@ -69,7 +69,7 @@ class Player {
     const newIndex = this.queueIndex + 1;
 
     if (this.queue[newIndex]) {
-      this.playQueue(newIndex);
+      this.playQueueIndex(newIndex);
     }
   }
 
@@ -118,7 +118,7 @@ class Player {
     const newIndex = this.queueIndex + 1;
 
     if (this.queue[newIndex]) {
-      this.playQueue(newIndex);
+      this.playQueueIndex(newIndex);
     }
   };
 }
