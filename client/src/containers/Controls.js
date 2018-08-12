@@ -6,7 +6,7 @@ import FaPause from "react-icons/lib/fa/pause";
 import FaForward from "react-icons/lib/fa/forward";
 import FaBackward from "react-icons/lib/fa/backward";
 
-import { play, pause, next, previous } from "../actions/user";
+import { toggle, pause, next, previous } from "../actions/user";
 import ProgressBar from "../components/ProgressBar";
 import secondsToTimecode from "../helpers/secondsToTimecode";
 
@@ -59,12 +59,11 @@ const Controls = ({
   playing,
   duration,
   currentTime,
-  onPlay,
-  onPause,
+  onToggle,
   seekableTo,
   file,
   onPrevious,
-  onNext
+  onNext,
 }) => (
   <StyledControls>
     <ControlsContainer>
@@ -72,7 +71,7 @@ const Controls = ({
         <ControlsButton onClick={onPrevious}>
           <FaBackward />
         </ControlsButton>
-        <PlayButton onClick={playing ? onPause : onPlay}>
+        <PlayButton onClick={onToggle}>
           {playing ? <FaPause /> : <FaPlay />}
         </PlayButton>
         <ControlsButton onClick={onNext}>
@@ -94,19 +93,18 @@ const Controls = ({
 );
 
 const mapStateToProps = ({
-  player: { playing, duration, currentTime, queue, queueIndex }
+  player: { playing, duration, currentTime, queue, queueIndex },
 }) => ({
   playing,
   duration,
   currentTime,
-  file: queue[queueIndex]
+  file: queue[queueIndex],
 });
 
 const mapDispatchToProps = dispatch => ({
-  onPlay: () => dispatch(play()),
-  onPause: () => dispatch(pause()),
+  onToggle: () => dispatch(toggle()),
   onNext: () => dispatch(next()),
-  onPrevious: () => dispatch(previous())
+  onPrevious: () => dispatch(previous()),
 });
 
 export default connect(
