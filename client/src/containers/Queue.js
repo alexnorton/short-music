@@ -24,6 +24,21 @@ const QueueItem = styled.li`
   }
 `;
 
+const QueueButton = styled.button`
+  background: none !important;
+  color: #2980b9;
+  border: none;
+  padding: 0 !important;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+
+  :hover {
+    color: #3498db;
+  }
+`;
+
 const Queue = ({ queue, queueIndex, playQueueIndex }) => (
   <StyledQueue>
     <QueueHeading>Up next</QueueHeading>
@@ -34,10 +49,10 @@ const Queue = ({ queue, queueIndex, playQueueIndex }) => (
           const directoryPath = file.slice(0, file.length - 1);
           return (
             <QueueItem key={id}>
-              <button onClick={() => playQueueIndex(index)}>
+              <QueueButton onClick={() => playQueueIndex(index)}>
                 {queueIndex === index && "▶ "}
                 {filename}
-              </button>
+              </QueueButton>
               <br />
               {directoryPath.join(" / ")}
             </QueueItem>
