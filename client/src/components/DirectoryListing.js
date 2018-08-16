@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import removeArticle from "../helpers/removeArticle";
 import filenameToComponents from "../helpers/filenameToComponents";
+import MultiSelectList from "./MultiSelectList";
 
 const Container = styled.div`
   max-width: 800px;
@@ -91,27 +92,42 @@ const DirectoryListing = ({ data, error, path, onSelectFile }) => (
           />
         )}
         {data.files.length > 0 && (
-          <ContentTypeListing
-            items={data.files}
-            heading="Files"
-            renderItem={(file, index) => {
-              const { number, name, extension } = filenameToComponents(file);
-              return (
-                <FileButton
-                  onClick={e => {
-                    e.preventDefault();
-                    onSelectFile(
-                      data.files.slice(index).map(file => [...path, file])
-                    );
-                  }}
-                >
-                  {number && <MutedButtonText>{number}</MutedButtonText>}
-                  {name}
-                  {extension && <MutedButtonText>{extension}</MutedButtonText>}
-                </FileButton>
-              );
-            }}
-          />
+          <Fragment>
+            <ContentTypeListing
+              items={data.files}
+              heading="Files"
+              renderItem={(file, index) => {
+                const { number, name, extension } = filenameToComponents(file);
+                return (
+                  <FileButton
+                    onClick={e => {
+                      e.preventDefault();
+                      onSelectFile(
+                        data.files.slice(index).map(file => [...path, file])
+                      );
+                    }}
+                  >
+                    {number && <MutedButtonText>{number}</MutedButtonText>}
+                    {name}
+                    {extension && (
+                      <MutedButtonText>{extension}</MutedButtonText>
+                    )}
+                  </FileButton>
+                );
+              }}
+            />
+            <MultiSelectList
+              items={data.files}
+              getKey={file => file}
+              renderItem={({ item, selected }) => {
+                return (
+                  <div style={{ backgroundColor: selected && "#ddd" }}>
+                    {item}
+                  </div>
+                );
+              }}
+            />
+          </Fragment>
         )}
       </Fragment>
     ) : (
