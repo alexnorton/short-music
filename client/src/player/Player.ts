@@ -1,6 +1,18 @@
-import uuidv4 from "uuid/v4";
+import * as uuidv4 from "uuid/v4";
 
 class Player {
+  audio: HTMLAudioElement;
+  queue: Array<any>;
+  queueIndex: number | null;
+
+  onPlaying?: { (): void };
+  onQueueChanged?: { (queue: Array<any>): void };
+  onFileChanged?: { (file: any, queueIndex: number): void };
+  onTimeUpdate?: { (time: number): void };
+  onLoadedMetadata?: { (duration: number): void };
+  onPause?: { (): void };
+  onProgress?: { (seekableTo: number): void };
+
   constructor() {
     this.audio = document.createElement("audio");
     this.queue = [];
@@ -16,7 +28,7 @@ class Player {
 
   // Control methods
 
-  playFile(path) {
+  playFile(path: Array<string>) {
     this.audio.src = `/data/${path.join("/")}`;
     this.audio.play();
   }
@@ -29,12 +41,20 @@ class Player {
     this.audio.pause();
   }
 
-  loadAndPlayQueue(files) {
-    this.updateQueue(files);
-    this.playQueue(0);
+  toggle() {
+    if (this.audio.paused) {
+      this.play();
+      return;
+    }
+    this.pause();
   }
 
-  updateQueue(files) {
+  loadAndPlayQueue(files: Array<any>) {
+    this.updateQueue(files);
+    this.playQueueIndex(0);
+  }
+
+  updateQueue(files: Array<any>) {
     this.queue = files.map(file => ({ file, id: uuidv4() }));
 
     if (this.onQueueChanged) {
@@ -42,7 +62,7 @@ class Player {
     }
   }
 
-  playQueue(index) {
+  playQueueIndex(index: number) {
     this.queueIndex = index;
     const file = this.queue[this.queueIndex].file;
 
@@ -55,10 +75,12 @@ class Player {
 
   previous() {
     if (this.audio.currentTime < 3) {
-      const newIndex = this.queueIndex - 1;
+      if (this.queueIndex) {
+        const newIndex = this.queueIndex - 1;
 
-      if (this.queue[newIndex]) {
-        this.playQueue(newIndex);
+        if (this.queue[newIndex]) {
+          this.playQueueIndex(newIndex);
+        }
       }
     } else {
       this.seek(0);
@@ -66,14 +88,16 @@ class Player {
   }
 
   next() {
-    const newIndex = this.queueIndex + 1;
+    if (this.queueIndex) {
+      const newIndex = this.queueIndex + 1;
 
-    if (this.queue[newIndex]) {
-      this.playQueue(newIndex);
+      if (this.queue[newIndex]) {
+        this.playQueueIndex(newIndex);
+      }
     }
   }
 
-  seek(time) {
+  seek(time: number) {
     this.audio.currentTime = time;
   }
 
@@ -115,10 +139,12 @@ class Player {
   };
 
   handleEnded = () => {
-    const newIndex = this.queueIndex + 1;
+    if (this.queueIndex) {
+      const newIndex = this.queueIndex + 1;
 
-    if (this.queue[newIndex]) {
-      this.playQueue(newIndex);
+      if (this.queue[newIndex]) {
+        this.playQueueIndex(newIndex);
+      }
     }
   };
 }

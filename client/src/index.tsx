@@ -1,10 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
 import Player from "./player/Player";
-import App from "./components/App";
 import configureStore from "./store/configureStore";
+
+const App: React.ComponentType = require("./components/App").default;
 
 import "./globalStyles";
 

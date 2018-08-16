@@ -5,6 +5,8 @@ import {
   LOAD_AND_PLAY_QUEUE,
   NEXT,
   PREVIOUS,
+  PLAY_QUEUE_INDEX,
+  TOGGLE,
 } from "../actions/user";
 import {
   playing,
@@ -28,6 +30,9 @@ const handleAction = (player, action) => {
     case PAUSE:
       player.pause();
       break;
+    case TOGGLE:
+      player.toggle();
+      break;
     case LOAD_AND_PLAY_QUEUE:
       player.loadAndPlayQueue(action.queue);
       break;
@@ -36,6 +41,9 @@ const handleAction = (player, action) => {
       break;
     case NEXT:
       player.next();
+      break;
+    case PLAY_QUEUE_INDEX:
+      player.playQueueIndex(action.index);
       break;
     default:
       break;
