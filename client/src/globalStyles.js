@@ -20,7 +20,6 @@ injectGlobal`
 
   a {
     color: #2980b9;
-    text-decoration: none;
   }
 
   a:hover {
