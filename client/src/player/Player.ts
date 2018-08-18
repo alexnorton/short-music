@@ -139,7 +139,7 @@ class Player {
   };
 
   handleEnded = () => {
-    if (this.queueIndex) {
+    if (this.queueIndex !== null) {
       const newIndex = this.queueIndex + 1;
 
       if (this.queue[newIndex]) {
