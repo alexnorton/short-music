@@ -75,7 +75,7 @@ class Player {
 
   previous() {
     if (this.audio.currentTime < 3) {
-      if (this.queueIndex) {
+      if (this.queueIndex !== null) {
         const newIndex = this.queueIndex - 1;
 
         if (this.queue[newIndex]) {
@@ -88,7 +88,7 @@ class Player {
   }
 
   next() {
-    if (this.queueIndex) {
+    if (this.queueIndex !== null) {
       const newIndex = this.queueIndex + 1;
 
       if (this.queue[newIndex]) {
