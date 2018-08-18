@@ -8,9 +8,10 @@ const StyledFilesListItem = styled.div`
   color: #2980b9;
   cursor: default;
   user-select: none;
-  height: 26px;
-  line-height: 26px;
-  border-width: 1px 0 0 0;
+  height: 30px;
+  line-height: 30px;
+  margin-bottom: -1px;
+  border-width: 1px 0;
   border-color: #ddd;
   border-style: solid;
   border-collapse: collapse;
