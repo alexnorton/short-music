@@ -5,29 +5,23 @@ import FaPlay from "react-icons/lib/fa/play";
 import filenameToComponents from "../helpers/filenameToComponents";
 
 const StyledFilesListItem = styled.div`
-  color: #2980b9;
+  color: ${props => (props.selected ? "#fff" : "#333")};
   cursor: default;
   user-select: none;
   height: 30px;
-  line-height: 30px;
+  line-height: 30x;
   margin-bottom: -1px;
   border-width: 1px 0;
   border-color: #ddd;
   border-style: solid;
   border-collapse: collapse;
-  background-color: ${props => (props.selected ? "#ddd" : "inherit")};
-
-  :hover {
-    color: #3498db;
-  }
+  background-color: ${props => (props.selected ? "#2980b9" : "inherit")};
+  display: flex;
+  align-items: center;
 `;
 
 const MutedText = styled.span`
-  color: #7f8c8d;
-
-  ${StyledFilesListItem}:hover & {
-    color: #95a5a6;
-  }
+  opacity: 0.6;
 `;
 
 const PlayButton = styled.button`
@@ -35,15 +29,24 @@ const PlayButton = styled.button`
   background: none !important;
   padding: 0 !important;
   border: none;
-  margin: 0 5px;
+  margin: 0 10px;
   outline: none;
-  height: 10px;
-  width: 10px;
+  height: 12px;
+  width: 12px;
+  font-size: 0;
 
   ${StyledFilesListItem}:hover & {
     visibility: visible;
   }
 `;
+
+const PlayIcon = styled(FaPlay)`
+  width: 100%;
+  height: 100%;
+  color: ${props => (props.selected ? "#fff" : "#2980b9")};
+`;
+
+const FileName = styled.span``;
 
 const FilesListItem = ({ file, selected, onPlayFile }) => {
   const { number, name, extension } = filenameToComponents(file);
@@ -51,11 +54,13 @@ const FilesListItem = ({ file, selected, onPlayFile }) => {
   return (
     <StyledFilesListItem selected={selected}>
       <PlayButton onClick={onPlayFile}>
-        <FaPlay />
+        <PlayIcon selected={selected} />
       </PlayButton>
-      {number && <MutedText>{number}</MutedText>}
-      {name}
-      {extension && <MutedText>{extension}</MutedText>}
+      <FileName>
+        {number && <MutedText>{number}</MutedText>}
+        {name}
+        {extension && <MutedText>{extension}</MutedText>}
+      </FileName>
     </StyledFilesListItem>
   );
 };
