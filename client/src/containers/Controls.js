@@ -9,6 +9,7 @@ import FaBackward from "react-icons/lib/fa/backward";
 import { toggle, pause, next, previous } from "../actions/user";
 import ProgressBar from "../components/ProgressBar";
 import secondsToTimecode from "../helpers/secondsToTimecode";
+import filenameToComponents from "../helpers/filenameToComponents";
 
 const StyledControls = styled.div`
   border-top: 1px solid #333;
@@ -18,8 +19,8 @@ const StyledControls = styled.div`
 `;
 
 const ControlsContainer = styled.div`
-  flex-basis: 100%;
-  max-width: 800px;
+  // flex-basis: 100%;
+  width: 100%;
 `;
 
 const ControlsRow = styled.div`
@@ -32,6 +33,10 @@ const ControlsRow = styled.div`
 const FileRow = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const MutedText = styled.span`
+  opacity: 0.6;
 `;
 
 const TimesRow = styled.div`
@@ -61,6 +66,31 @@ const PlayButton = ControlsButton.extend`
   width: 35px;
 `;
 
+const StyledFileName = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const FileName = ({ filename }) => {
+  const { number, name, extension } = filenameToComponents(filename);
+
+  return (
+    <StyledFileName>
+      {number && <MutedText>{number}</MutedText>}
+      {name}
+      {extension && <MutedText>{extension}</MutedText>}
+    </StyledFileName>
+  );
+};
+
+const ProgressContainer = styled.div`
+  max-width: 800px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const Controls = ({
   playing,
   duration,
@@ -84,16 +114,24 @@ const Controls = ({
           <FaForward />
         </ControlsButton>
       </ControlsRow>
-      <FileRow>{file ? file.file[file.file.length - 1] : "Stopped"}</FileRow>
-      <TimesRow>
-        <div>{secondsToTimecode(currentTime)}</div>
-        <div>-{secondsToTimecode(duration - currentTime)}</div>
-      </TimesRow>
-      <ProgressBar
-        duration={duration}
-        currentTime={currentTime}
-        seekableTo={seekableTo}
-      />
+      <FileRow>
+        {file ? (
+          <FileName filename={file.file[file.file.length - 1]} />
+        ) : (
+          "Stopped"
+        )}
+      </FileRow>
+      <ProgressContainer>
+        <TimesRow>
+          <div>{secondsToTimecode(currentTime)}</div>
+          <div>-{secondsToTimecode(duration - currentTime)}</div>
+        </TimesRow>
+        <ProgressBar
+          duration={duration}
+          currentTime={currentTime}
+          seekableTo={seekableTo}
+        />
+      </ProgressContainer>
     </ControlsContainer>
   </StyledControls>
 );

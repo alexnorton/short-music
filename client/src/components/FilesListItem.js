@@ -34,6 +34,7 @@ const PlayButton = styled.button`
   height: 12px;
   width: 12px;
   font-size: 0;
+  flex-shrink: 0;
 
   ${StyledFilesListItem}:hover & {
     visibility: visible;
@@ -46,7 +47,12 @@ const PlayIcon = styled(FaPlay)`
   color: ${props => (props.selected ? "#fff" : "#2980b9")};
 `;
 
-const FileName = styled.span``;
+const FileName = styled.span`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  flex-shrink: 1;
+`;
 
 const FilesListItem = ({ file, selected, onPlayFile }) => {
   const { number, name, extension } = filenameToComponents(file);
