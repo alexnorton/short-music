@@ -15,8 +15,11 @@ const DirectoryHeading = styled.h2`
   font-size: 32px;
 `;
 
-const DirectorySubHeading = styled.h3`
-  font-size: 28px;
+const DirectorySubHeading = styled.span`
+  display: block;
+  font-size: 20px;
+  color: #7f8c8d;
+  font-weight: normal;
 `;
 
 const ContentTypeHeading = styled.h4`
@@ -33,13 +36,14 @@ const DirectoryListing = ({ data, error, path, onSelectFile }) => (
       <Fragment>
         <DirectoryHeading>
           {path && path.length > 0 ? path[path.length - 1] : "Home"}
+          {path &&
+            path.length > 1 && (
+              <DirectorySubHeading>
+                {path.slice(0, path.length - 1).join(" / ")}
+              </DirectorySubHeading>
+            )}
         </DirectoryHeading>
-        {path &&
-          path.length > 1 && (
-            <DirectorySubHeading>
-              {path.slice(0, path.length - 1).join(" / ")}
-            </DirectorySubHeading>
-          )}
+
         {path.length > 0 && (
           <Link to={"/" + path.slice(0, path.length - 1).join("/")}>
             Up one level
