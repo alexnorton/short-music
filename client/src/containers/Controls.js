@@ -14,7 +14,7 @@ const StyledControls = styled.div`
   border-top: 1px solid #333;
   display: flex;
   justify-content: center;
-  padding: 15px;
+  padding: 10px;
 `;
 
 const ControlsContainer = styled.div`
@@ -25,6 +25,8 @@ const ControlsContainer = styled.div`
 const ControlsRow = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
 `;
 
 const FileRow = styled.div`
@@ -38,21 +40,25 @@ const TimesRow = styled.div`
 `;
 
 const ControlsButton = styled.button`
-  font-size: 24px;
+  font-size: 0;
   border: none;
-  background: none;
+  background: none !important;
   padding: 0;
   margin: 0 10px;
   outline: none;
-  opacity: 0.8;
+  height: 25px;
+  width: 25px;
+  color: #333;
 
-  :hover {
-    opacity: 1;
+  svg {
+    width: 100%;
+    height: 100%;
   }
 `;
 
 const PlayButton = ControlsButton.extend`
-  font-size: 36px;
+  height: 35px;
+  width: 35px;
 `;
 
 const Controls = ({
@@ -63,7 +69,7 @@ const Controls = ({
   seekableTo,
   file,
   onPrevious,
-  onNext,
+  onNext
 }) => (
   <StyledControls>
     <ControlsContainer>
@@ -93,18 +99,18 @@ const Controls = ({
 );
 
 const mapStateToProps = ({
-  player: { playing, duration, currentTime, queue, queueIndex },
+  player: { playing, duration, currentTime, queue, queueIndex }
 }) => ({
   playing,
   duration,
   currentTime,
-  file: queue[queueIndex],
+  file: queue[queueIndex]
 });
 
 const mapDispatchToProps = dispatch => ({
   onToggle: () => dispatch(toggle()),
   onNext: () => dispatch(next()),
-  onPrevious: () => dispatch(previous()),
+  onPrevious: () => dispatch(previous())
 });
 
 export default connect(
