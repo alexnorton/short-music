@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "short-music",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001",
@@ -15,7 +15,8 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
+    "start": "tmux new-session 'yarn client:start' \\; split-window 'sh -c \"cd server && docker-compose up\"' \\; attach",
+    "client:start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "analyse-bundle": "node bin/analyseBundle.js"
   },
