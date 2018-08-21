@@ -17,7 +17,7 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "analyse-bundle": "node analyseBundle.js"
+    "analyse-bundle": "node bin/analyseBundle.js"
   },
   "devDependencies": {
     "@types/node": "^10.5.8",
