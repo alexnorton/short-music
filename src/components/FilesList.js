@@ -19,13 +19,15 @@ class FilesList extends React.Component {
   }
 
   render() {
-    const { files, path, currentFile } = this.props;
+    const { files, path, playing, currentFile, onToggle } = this.props;
     const { selected } = this.state;
 
     return (
       <div>
         {files.map((file, index) => {
           const key = file;
+          const isCurrentFile =
+            currentFile && [...path, file].join("/") === currentFile.join("/");
           return (
             <div
               key={key}
@@ -34,12 +36,11 @@ class FilesList extends React.Component {
             >
               <FilesListItem
                 file={file}
-                playing={
-                  currentFile &&
-                  [...path, file].join("/") === currentFile.join("/")
-                }
+                playing={isCurrentFile && playing}
+                currentFile={isCurrentFile}
                 selected={selected.indexOf(key) !== -1}
                 onPlayFile={() => this.handlePlayFromIndex(index)}
+                onToggle={onToggle}
               />
             </div>
           );

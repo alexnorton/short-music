@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import FaPlay from "react-icons/lib/fa/play";
+import FaPause from "react-icons/lib/fa/pause";
 import FaVolumeUp from "react-icons/lib/fa/volume-up";
+import FaVolumeOff from "react-icons/lib/fa/volume-off";
 
 import filenameToComponents from "../helpers/filenameToComponents";
 
@@ -25,25 +27,49 @@ const MutedText = styled.span`
   opacity: 0.6;
 `;
 
-const FileButton = styled.button`
-  visibility: ${props => (props.playing ? "inherit" : "hidden")};
+const FileAction = styled.div`
+  display: flex;
+  height: 100%;
+  width: 34px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+`;
+
+const TogglePlaybackButton = styled.button`
   background: none !important;
   padding: 0 !important;
   border: none;
-  margin: 0 10px;
   outline: none;
+  margin: 0;
+  font-size: 0;
   height: 12px;
   width: 12px;
-  font-size: 0;
   flex-shrink: 0;
 
+  display: none;
+
   ${StyledFilesListItem}:hover & {
-    visibility: visible;
+    display: inherit;
   }
 
   svg {
     width: 100%;
     height: 100%;
+    color: ${props => (props.selected ? "#fff" : "#2980b9")};
+  }
+`;
+
+const PlayingIcon = styled.div`
+  display: ${props => (props.currentFile ? "inherit" : "none")};
+  height: 16px;
+  width: 16px;
+
+  ${StyledFilesListItem}:hover & {
+    display: none;
+  }
+
+  svg {
     color: ${props => (props.selected ? "#fff" : "#2980b9")};
   }
 `;
@@ -55,14 +81,37 @@ const FileName = styled.span`
   flex-shrink: 1;
 `;
 
-const FilesListItem = ({ file, selected, playing, onPlayFile }) => {
+const FilesListItem = ({
+  file,
+  selected,
+  currentFile,
+  playing,
+  onPlayFile,
+  onToggle,
+}) => {
   const { number, name, extension } = filenameToComponents(file);
 
   return (
     <StyledFilesListItem selected={selected}>
-      <FileButton onClick={onPlayFile} playing={playing} selected={selected}>
-        {playing ? <FaVolumeUp /> : <FaPlay />}
-      </FileButton>
+      <FileAction>
+        <TogglePlaybackButton
+          onClick={event => {
+            event.stopPropagation();
+            (currentFile ? onToggle : onPlayFile)();
+          }}
+          currentFile={currentFile}
+          selected={selected}
+        >
+          {playing ? <FaPause /> : <FaPlay />}
+        </TogglePlaybackButton>
+        <PlayingIcon
+          selected={selected}
+          currentFile={currentFile}
+          playing={playing}
+        >
+          {playing ? <FaVolumeUp /> : <FaVolumeOff />}
+        </PlayingIcon>
+      </FileAction>
       <FileName>
         {number && <MutedText>{number}</MutedText>}
         {name}
