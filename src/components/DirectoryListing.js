@@ -27,7 +27,7 @@ const ContentTypeHeading = styled.h4`
   font-size: 24px;
 `;
 
-const DirectoryListing = ({ data, error, path, onSelectFile }) => {
+const DirectoryListing = ({ data, error, path, onSelectFile, currentFile }) => {
   const title = path && path.length > 0 ? path[path.length - 1] : "Home";
   return (
     <Container>
@@ -68,6 +68,7 @@ const DirectoryListing = ({ data, error, path, onSelectFile }) => {
                 path={path}
                 files={data.files}
                 onPlayFiles={onSelectFile}
+                currentFile={currentFile}
               />
             </Fragment>
           )}

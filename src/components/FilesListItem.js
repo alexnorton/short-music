@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import FaPlay from "react-icons/lib/fa/play";
+import FaVolumeUp from "react-icons/lib/fa/volume-up";
 
 import filenameToComponents from "../helpers/filenameToComponents";
 
@@ -24,8 +25,8 @@ const MutedText = styled.span`
   opacity: 0.6;
 `;
 
-const PlayButton = styled.button`
-  visibility: hidden;
+const FileButton = styled.button`
+  visibility: ${props => (props.playing ? "inherit" : "hidden")};
   background: none !important;
   padding: 0 !important;
   border: none;
@@ -39,12 +40,12 @@ const PlayButton = styled.button`
   ${StyledFilesListItem}:hover & {
     visibility: visible;
   }
-`;
 
-const PlayIcon = styled(FaPlay)`
-  width: 100%;
-  height: 100%;
-  color: ${props => (props.selected ? "#fff" : "#2980b9")};
+  svg {
+    width: 100%;
+    height: 100%;
+    color: ${props => (props.selected ? "#fff" : "#2980b9")};
+  }
 `;
 
 const FileName = styled.span`
@@ -54,14 +55,14 @@ const FileName = styled.span`
   flex-shrink: 1;
 `;
 
-const FilesListItem = ({ file, selected, onPlayFile }) => {
+const FilesListItem = ({ file, selected, playing, onPlayFile }) => {
   const { number, name, extension } = filenameToComponents(file);
 
   return (
     <StyledFilesListItem selected={selected}>
-      <PlayButton onClick={onPlayFile}>
-        <PlayIcon selected={selected} />
-      </PlayButton>
+      <FileButton onClick={onPlayFile} playing={playing} selected={selected}>
+        {playing ? <FaVolumeUp /> : <FaPlay />}
+      </FileButton>
       <FileName>
         {number && <MutedText>{number}</MutedText>}
         {name}

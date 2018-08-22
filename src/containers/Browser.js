@@ -54,7 +54,7 @@ class Browser extends React.Component {
 
   render() {
     const { path, data, error } = this.state;
-    const { loadAndPlayQueue } = this.props;
+    const { loadAndPlayQueue, currentFile } = this.props;
 
     return (
       <DirectoryListing
@@ -62,16 +62,21 @@ class Browser extends React.Component {
         data={data}
         error={error}
         onSelectFile={loadAndPlayQueue}
+        currentFile={currentFile}
       />
     );
   }
 }
+
+const mapStateToProps = ({ player: { queue, queueIndex } }) => ({
+  currentFile: queue && queueIndex !== null && queue[queueIndex].file,
+});
 
 const mapDispatchToProps = dispatch => ({
   loadAndPlayQueue: queue => dispatch(loadAndPlayQueue(queue)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Browser);

@@ -19,7 +19,7 @@ class FilesList extends React.Component {
   }
 
   render() {
-    const { files } = this.props;
+    const { files, path, currentFile } = this.props;
     const { selected } = this.state;
 
     return (
@@ -34,6 +34,10 @@ class FilesList extends React.Component {
             >
               <FilesListItem
                 file={file}
+                playing={
+                  currentFile &&
+                  [...path, file].join("/") === currentFile.join("/")
+                }
                 selected={selected.indexOf(key) !== -1}
                 onPlayFile={() => this.handlePlayFromIndex(index)}
               />
