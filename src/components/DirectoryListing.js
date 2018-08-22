@@ -27,69 +27,97 @@ const ContentTypeHeading = styled.h4`
   font-size: 24px;
 `;
 
-const DirectoryListing = ({
-  data,
-  error,
-  path,
-  onSelectFile,
-  onToggle,
-  currentFile,
-  playing,
-}) => {
-  const title = path && path.length > 0 ? path[path.length - 1] : "Home";
-  return (
-    <Container>
-      {error ? (
-        <Fragment>
-          <DirectoryHeading>Error {error.code}</DirectoryHeading>
-        </Fragment>
-      ) : data ? (
-        <Fragment>
-          <Helmet>
-            <title>{title}</title>
-          </Helmet>
-          <DirectoryHeading>
-            {title}
-            {path &&
-              path.length > 1 && (
-                <DirectorySubHeading>
-                  {path.slice(0, path.length - 1).join(" / ")}
-                </DirectorySubHeading>
-              )}
-          </DirectoryHeading>
+class DirectoryListing extends React.Component {
+  state = {
+    selectedFiles: [],
+  };
 
-          {path.length > 0 && (
-            <Link to={"/" + path.slice(0, path.length - 1).join("/")}>
-              Up one level
-            </Link>
-          )}
-          {data.directories.length > 0 && (
-            <Fragment>
-              <ContentTypeHeading>Directories</ContentTypeHeading>
-              <DirectoriesList directories={data.directories} path={path} />
-            </Fragment>
-          )}
-          {data.files.length > 0 && (
-            <Fragment>
-              <ContentTypeHeading>Files</ContentTypeHeading>
-              <FilesList
-                path={path}
-                files={data.files}
-                onPlayFiles={onSelectFile}
-                onToggle={onToggle}
-                playing={playing}
-                currentFile={currentFile}
-              />
-            </Fragment>
-          )}
-        </Fragment>
-      ) : (
-        <Fragment>
-          <DirectoryHeading>Loading...</DirectoryHeading>
-        </Fragment>
-      )}
-    </Container>
-  );
-};
+  constructor() {
+    super();
+
+    this.clearFileSelection = this.clearFileSelection.bind(this);
+    this.handleFileSelected = this.handleFileSelected.bind(this);
+  }
+
+  clearFileSelection() {
+    this.setState({ selectedFiles: [] });
+  }
+
+  handleFileSelected(key) {
+    this.setState({ selectedFiles: [key] });
+  }
+
+  render() {
+    const {
+      data,
+      error,
+      path,
+      onSelectFile,
+      onToggle,
+      currentFile,
+      playing,
+    } = this.props;
+
+    const { selectedFiles } = this.state;
+
+    const title = path && path.length > 0 ? path[path.length - 1] : "Home";
+
+    return (
+      <Container onClick={this.clearFileSelection}>
+        {error ? (
+          <Fragment>
+            <DirectoryHeading>Error {error.code}</DirectoryHeading>
+          </Fragment>
+        ) : data ? (
+          <Fragment>
+            <Helmet>
+              <title>{title}</title>
+            </Helmet>
+            <DirectoryHeading>
+              {title}
+              {path &&
+                path.length > 1 && (
+                  <DirectorySubHeading>
+                    {path.slice(0, path.length - 1).join(" / ")}
+                  </DirectorySubHeading>
+                )}
+            </DirectoryHeading>
+
+            {path.length > 0 && (
+              <Link to={"/" + path.slice(0, path.length - 1).join("/")}>
+                Up one level
+              </Link>
+            )}
+            {data.directories.length > 0 && (
+              <Fragment>
+                <ContentTypeHeading>Directories</ContentTypeHeading>
+                <DirectoriesList directories={data.directories} path={path} />
+              </Fragment>
+            )}
+            {data.files.length > 0 && (
+              <Fragment>
+                <ContentTypeHeading>Files</ContentTypeHeading>
+                <FilesList
+                  path={path}
+                  files={data.files}
+                  onPlayFiles={onSelectFile}
+                  onToggle={onToggle}
+                  playing={playing}
+                  currentFile={currentFile}
+                  selectedFiles={selectedFiles}
+                  onFileSelected={this.handleFileSelected}
+                />
+              </Fragment>
+            )}
+          </Fragment>
+        ) : (
+          <Fragment>
+            <DirectoryHeading>Loading...</DirectoryHeading>
+          </Fragment>
+        )}
+      </Container>
+    );
+  }
+}
 
 export default DirectoryListing;

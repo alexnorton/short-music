@@ -4,14 +4,6 @@ import MultiSelectList from "./MultiSelectList";
 import FilesListItem from "./FilesListItem";
 
 class FilesList extends React.Component {
-  state = {
-    selected: [],
-  };
-
-  handleSelect(key) {
-    this.setState({ selected: [key] });
-  }
-
   handlePlayFromIndex(index) {
     const { onPlayFiles, files, path } = this.props;
 
@@ -19,8 +11,15 @@ class FilesList extends React.Component {
   }
 
   render() {
-    const { files, path, playing, currentFile, onToggle } = this.props;
-    const { selected } = this.state;
+    const {
+      files,
+      path,
+      playing,
+      currentFile,
+      onToggle,
+      selectedFiles,
+      onFileSelected,
+    } = this.props;
 
     return (
       <div>
@@ -31,14 +30,17 @@ class FilesList extends React.Component {
           return (
             <div
               key={key}
-              onClick={() => this.handleSelect(key)}
+              onClick={event => {
+                event.stopPropagation();
+                onFileSelected(key);
+              }}
               onDoubleClick={() => this.handlePlayFromIndex(index)}
             >
               <FilesListItem
                 file={file}
                 playing={isCurrentFile && playing}
                 currentFile={isCurrentFile}
-                selected={selected.indexOf(key) !== -1}
+                selected={selectedFiles.indexOf(key) !== -1}
                 onPlayFile={() => this.handlePlayFromIndex(index)}
                 onToggle={onToggle}
               />
