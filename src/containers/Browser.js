@@ -45,7 +45,9 @@ class Browser extends React.Component {
       directories: json
         .filter(item => item.type === "directory")
         .map(item => item.name),
-      files: json.filter(item => item.type === "file").map(item => item.name),
+      files: json
+        .filter(item => item.type === "file" || item.type === "url")
+        .map(item => item.name),
     };
 
     this.setState({
