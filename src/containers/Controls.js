@@ -12,14 +12,14 @@ import secondsToTimecode from "../helpers/secondsToTimecode";
 import filenameToComponents from "../helpers/filenameToComponents";
 
 const StyledControls = styled.div`
-  border-top: 1px solid #333;
+  border-top: 1px solid #dcdde1;
   display: flex;
   justify-content: center;
   padding: 10px;
+  background-color: #f5f6fa;
 `;
 
 const ControlsContainer = styled.div`
-  // flex-basis: 100%;
   width: 100%;
 `;
 
@@ -99,7 +99,7 @@ const Controls = ({
   seekableTo,
   file,
   onPrevious,
-  onNext
+  onNext,
 }) => (
   <StyledControls>
     <ControlsContainer>
@@ -137,18 +137,18 @@ const Controls = ({
 );
 
 const mapStateToProps = ({
-  player: { playing, duration, currentTime, queue, queueIndex }
+  player: { playing, duration, currentTime, queue, queueIndex },
 }) => ({
   playing,
   duration,
   currentTime,
-  file: queue[queueIndex]
+  file: queue[queueIndex],
 });
 
 const mapDispatchToProps = dispatch => ({
   onToggle: () => dispatch(toggle()),
   onNext: () => dispatch(next()),
-  onPrevious: () => dispatch(previous())
+  onPrevious: () => dispatch(previous()),
 });
 
 export default connect(

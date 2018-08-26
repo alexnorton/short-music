@@ -22,7 +22,7 @@ const Main = styled.div`
 const Side = styled.div`
   width: 40%;
   max-width: 400px;
-  border-left: 1px solid #333;
+  border-left: 1px solid #dcdde1;
   overflow-y: scroll;
 `;
 
