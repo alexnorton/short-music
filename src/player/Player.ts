@@ -1,4 +1,5 @@
 import * as uuidv4 from "uuid/v4";
+import { SERVER_ENDPOINT } from "../config";
 
 class Player {
   audio: HTMLAudioElement;
@@ -29,7 +30,7 @@ class Player {
   // Control methods
 
   playFile(path: Array<string>) {
-    this.audio.src = `/data/${path.join("/")}`;
+    this.audio.src = `${SERVER_ENDPOINT}/${path.join("/")}`;
     this.audio.play();
   }
 

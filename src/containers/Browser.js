@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import DirectoryListing from "../components/DirectoryListing";
 import { loadAndPlayQueue, toggle } from "../actions/user";
+import { SERVER_ENDPOINT } from "../config";
 
 class Browser extends React.Component {
   state = { path: [], data: null, error: null };
@@ -31,7 +32,7 @@ class Browser extends React.Component {
       path,
     });
 
-    const req = await fetch(`/data/${[...path, ""].join("/")}`);
+    const req = await fetch(`${SERVER_ENDPOINT}/${[...path, ""].join("/")}`);
 
     if (req.status !== 200) {
       const body = await req.text();
