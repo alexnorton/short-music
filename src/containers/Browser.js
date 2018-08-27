@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import DirectoryListing from "../components/DirectoryListing";
 import { loadAndPlayQueue, toggle } from "../actions/user";
 import { SERVER_ENDPOINT } from "../config";
+import compareItems from "../helpers/compareItems";
 
 class Browser extends React.Component {
   state = { path: [], data: null, error: null };
@@ -44,10 +45,12 @@ class Browser extends React.Component {
     const data = {
       directories: json
         .filter(item => item.type === "directory")
-        .map(item => item.name),
+        .map(item => item.name)
+        .sort(compareItems),
       files: json
         .filter(item => item.type === "file" || item.type === "url")
-        .map(item => item.name),
+        .map(item => item.name)
+        .sort(compareItems),
     };
 
     this.setState({
