@@ -24,6 +24,7 @@ const Side = styled.div`
   max-width: 400px;
   border-left: 1px solid #dcdde1;
   overflow-y: scroll;
+  background-color: #f5f6fa;
 `;
 
 const Content = styled.div`

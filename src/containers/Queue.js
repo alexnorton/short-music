@@ -7,7 +7,6 @@ import { playQueueIndex } from "../actions/user";
 const StyledQueue = styled.div`
   padding: 10px;
   height: 100%;
-  background-color: #f5f6fa;
 `;
 
 const QueueHeading = styled.h2`
