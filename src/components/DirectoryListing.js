@@ -52,7 +52,7 @@ class DirectoryListing extends React.Component {
       data,
       error,
       path,
-      onSelectFile,
+      onPlayFiles,
       onToggle,
       currentFile,
       playing,
@@ -100,7 +100,7 @@ class DirectoryListing extends React.Component {
                 <FilesList
                   path={path}
                   files={data.files}
-                  onPlayFiles={onSelectFile}
+                  onPlayFiles={onPlayFiles}
                   onToggle={onToggle}
                   playing={playing}
                   currentFile={currentFile}

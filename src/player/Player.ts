@@ -1,5 +1,4 @@
 import * as uuidv4 from "uuid/v4";
-import { SERVER_ENDPOINT } from "../config";
 
 class Player {
   audio: HTMLAudioElement;
@@ -29,8 +28,8 @@ class Player {
 
   // Control methods
 
-  playFile(path: Array<string>) {
-    this.audio.src = `${SERVER_ENDPOINT}/${path.join("/")}`;
+  playFile(file: { url: string }) {
+    this.audio.src = file.url;
     this.audio.play();
   }
 
@@ -56,7 +55,7 @@ class Player {
   }
 
   updateQueue(files: Array<any>) {
-    this.queue = files.map(file => ({ file, id: uuidv4() }));
+    this.queue = files.map(file => ({ ...file, id: uuidv4() }));
 
     if (this.onQueueChanged) {
       this.onQueueChanged(this.queue);
@@ -65,7 +64,7 @@ class Player {
 
   playQueueIndex(index: number) {
     this.queueIndex = index;
-    const file = this.queue[this.queueIndex].file;
+    const file = this.queue[this.queueIndex];
 
     if (this.onFileChanged) {
       this.onFileChanged(file, this.queueIndex);

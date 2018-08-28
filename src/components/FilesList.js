@@ -7,7 +7,7 @@ class FilesList extends React.Component {
   handlePlayFromIndex(index) {
     const { onPlayFiles, files, path } = this.props;
 
-    onPlayFiles(files.slice(index).map(file => [...path, file]));
+    onPlayFiles(files.slice(index));
   }
 
   render() {
@@ -24,9 +24,11 @@ class FilesList extends React.Component {
     return (
       <div>
         {files.map((file, index) => {
-          const key = file;
+          const key = file.filename;
           const isCurrentFile =
-            currentFile && [...path, file].join("/") === currentFile.join("/");
+            currentFile &&
+            `${file.directory}/${file.filename}` ===
+              `${currentFile.directory}/${currentFile.filename}`;
           return (
             <div
               key={key}

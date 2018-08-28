@@ -89,7 +89,7 @@ const FilesListItem = ({
   onPlayFile,
   onToggle,
 }) => {
-  const { number, name, extension } = filenameToComponents(file);
+  const { number, name, extension } = filenameToComponents(file.title);
 
   return (
     <StyledFilesListItem selected={selected}>

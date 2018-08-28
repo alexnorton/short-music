@@ -114,13 +114,7 @@ const Controls = ({
           <FaForward />
         </ControlsButton>
       </ControlsRow>
-      <FileRow>
-        {file ? (
-          <FileName filename={file.file[file.file.length - 1]} />
-        ) : (
-          "Stopped"
-        )}
-      </FileRow>
+      <FileRow>{file ? <FileName filename={file.title} /> : "Stopped"}</FileRow>
       <ProgressContainer>
         <TimesRow>
           <div>{secondsToTimecode(currentTime)}</div>

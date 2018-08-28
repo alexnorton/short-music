@@ -49,8 +49,16 @@ class Browser extends React.Component {
         .sort(compareItems),
       files: json
         .filter(item => item.type === "file" || item.type === "url")
-        .map(item => item.name)
-        .sort(compareItems),
+        .map(item => ({
+          directory: path.join("/"),
+          filename: item.name,
+          title: item.name,
+          url:
+            item.type === "url"
+              ? item.url
+              : `${SERVER_ENDPOINT}/${[...path, item.name].join("/")}`,
+        }))
+        .sort((a, b) => compareItems(a.title, b.title)),
     };
 
     this.setState({
@@ -67,7 +75,7 @@ class Browser extends React.Component {
         path={path}
         data={data}
         error={error}
-        onSelectFile={loadAndPlayQueue}
+        onPlayFiles={loadAndPlayQueue}
         onToggle={toggle}
         playing={playing}
         currentFile={currentFile}
@@ -77,7 +85,7 @@ class Browser extends React.Component {
 }
 
 const mapStateToProps = ({ player: { queue, queueIndex, playing } }) => ({
-  currentFile: queue && queueIndex !== null && queue[queueIndex].file,
+  currentFile: queue && queueIndex !== null && queue[queueIndex],
   playing,
 });
 

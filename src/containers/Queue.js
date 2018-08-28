@@ -46,9 +46,7 @@ const Queue = ({ queue, queueIndex, playQueueIndex }) => (
     <QueueHeading>Up next</QueueHeading>
     {queue.length > 0 ? (
       <QueueList>
-        {queue.map(({ file, id }, index) => {
-          const filename = file[file.length - 1];
-          const directoryPath = file.slice(0, file.length - 1);
+        {queue.map(({ filename, directory, id }, index) => {
           return (
             <QueueItem key={id}>
               <QueueButton onClick={() => playQueueIndex(index)}>
@@ -56,7 +54,7 @@ const Queue = ({ queue, queueIndex, playQueueIndex }) => (
                 {filename}
               </QueueButton>
               <br />
-              {directoryPath.join(" / ")}
+              {directory}
             </QueueItem>
           );
         })}
