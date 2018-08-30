@@ -9,11 +9,11 @@ import Queue from "../containers/Queue";
 const StyledApp = styled.div`
   display: flex;
   height: 100%;
+  flex-direction: column;
 `;
 
 const Main = styled.div`
   display: flex;
-  flex-direction: column;
   height: 100%;
   flex: 1;
   position: relative;
@@ -40,7 +40,7 @@ const QueueToggle = styled.button`
 
 class App extends React.Component {
   state = {
-    showQueue: false,
+    showQueue: false
   };
 
   toggleQueue = () => {
@@ -59,16 +59,16 @@ class App extends React.Component {
               </Switch>
             </BrowserRouter>
           </Content>
-          <Controls />
           <QueueToggle onClick={this.toggleQueue}>
             {this.state.showQueue ? "→" : "←"}
           </QueueToggle>
+          {this.state.showQueue && (
+            <Side>
+              <Queue />
+            </Side>
+          )}
         </Main>
-        {this.state.showQueue && (
-          <Side>
-            <Queue />
-          </Side>
-        )}
+        <Controls />
       </StyledApp>
     );
   }
