@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from "redux";
 
-import rootReducer from "../reducers/rootReducer";
+import rootReducer from "../reducers/rootReducer.ts";
 import playerMiddleware from "../middleware/playerMiddleware";
 import keyboardMiddleware from "../middleware/keyboardMiddleware";
 import { TIME_UPDATE, PROGRESS } from "../actions/player.ts";

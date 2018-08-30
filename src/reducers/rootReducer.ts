@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import {
+  PlayerAction,
   PLAYING,
   PAUSED,
   TIME_UPDATE,
@@ -7,10 +8,19 @@ import {
   PROGRESS,
   QUEUE_CHANGED,
   FILE_CHANGED,
-} from "../actions/player.ts";
+} from "../actions/player";
+
+interface PlayerState {
+  playing: boolean;
+  duration: number;
+  currentTime: number;
+  seekableTo: number;
+  queue: Array<any>;
+  queueIndex: number | null;
+}
 
 const player = (
-  state = {
+  state: PlayerState = {
     playing: false,
     duration: 0,
     currentTime: 0,
@@ -18,8 +28,8 @@ const player = (
     queue: [],
     queueIndex: null,
   },
-  action
-) => {
+  action: PlayerAction
+): PlayerState => {
   switch (action.type) {
     case PLAYING:
       return {
