@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "../reducers/rootReducer";
 import playerMiddleware from "../middleware/playerMiddleware";
 import keyboardMiddleware from "../middleware/keyboardMiddleware";
-import { TIME_UPDATE, PROGRESS } from "../actions/player";
+import { TIME_UPDATE, PROGRESS } from "../actions/player.ts";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({

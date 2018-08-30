@@ -1,4 +1,6 @@
+import Player from "../player/Player";
 import {
+  UserAction,
   PLAY_FILE,
   PLAY,
   PAUSE,
@@ -17,12 +19,13 @@ import {
   queueChanged,
   fileChanged,
 } from "../actions/player";
+import { Middleware } from "redux";
 
-const handleAction = (player, action) => {
+const handleAction = (player: Player, action: UserAction) => {
   switch (action.type) {
     case PLAY_FILE:
-      const { path, file } = action;
-      player.playFile(path, file);
+      const { file } = action;
+      player.playFile(file);
       break;
     case PLAY:
       player.play();
@@ -50,14 +53,14 @@ const handleAction = (player, action) => {
   }
 };
 
-const playerMiddleware = player => ({ dispatch }) => {
+const playerMiddleware = (player: Player): Middleware => ({ dispatch }) => {
   player.onPlaying = () => dispatch(playing());
   player.onPause = () => dispatch(paused());
   player.onTimeUpdate = time => dispatch(timeUpdate(time));
   player.onLoadedMetadata = duration => dispatch(loadedMetadata(duration));
   player.onProgress = seekableTo => dispatch(progress(seekableTo));
   player.onQueueChanged = queue => dispatch(queueChanged(queue));
-  player.onFileChanged = (file, index) => dispatch(fileChanged(file, index));
+  player.onFileChanged = index => dispatch(fileChanged(index));
 
   return next => action => {
     handleAction(player, action);

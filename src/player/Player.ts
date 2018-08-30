@@ -7,7 +7,7 @@ class Player {
 
   onPlaying?: { (): void };
   onQueueChanged?: { (queue: Array<any>): void };
-  onFileChanged?: { (file: any, queueIndex: number): void };
+  onFileChanged?: { (queueIndex: number): void };
   onTimeUpdate?: { (time: number): void };
   onLoadedMetadata?: { (duration: number): void };
   onPause?: { (): void };
@@ -28,7 +28,7 @@ class Player {
 
   // Control methods
 
-  playFile(file: { url: string }) {
+  playFile(file: any) {
     this.audio.src = file.url;
     this.audio.play();
   }
@@ -67,7 +67,7 @@ class Player {
     const file = this.queue[this.queueIndex];
 
     if (this.onFileChanged) {
-      this.onFileChanged(file, this.queueIndex);
+      this.onFileChanged(this.queueIndex);
     }
 
     this.playFile(file);

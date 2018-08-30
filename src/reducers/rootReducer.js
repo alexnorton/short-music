@@ -7,7 +7,7 @@ import {
   PROGRESS,
   QUEUE_CHANGED,
   FILE_CHANGED,
-} from "../actions/player";
+} from "../actions/player.ts";
 
 const player = (
   state = {
