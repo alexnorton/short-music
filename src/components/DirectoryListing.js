@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
-import filenameToComponents from "../helpers/filenameToComponents";
+import filenameToComponents from "../helpers/filenameToComponents.ts";
 import FilesList from "./FilesList";
 import DirectoriesList from "./DirectoriesList";
 

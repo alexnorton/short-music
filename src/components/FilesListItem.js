@@ -5,7 +5,7 @@ import FaPause from "react-icons/lib/fa/pause";
 import FaVolumeUp from "react-icons/lib/fa/volume-up";
 import FaVolumeOff from "react-icons/lib/fa/volume-off";
 
-import filenameToComponents from "../helpers/filenameToComponents";
+import filenameToComponents from "../helpers/filenameToComponents.ts";
 
 const StyledFilesListItem = styled.div`
   color: ${props => (props.selected ? "#fff" : "#333")};

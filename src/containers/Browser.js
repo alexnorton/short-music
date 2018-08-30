@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import DirectoryListing from "../components/DirectoryListing";
 import { loadAndPlayQueue, toggle } from "../actions/user";
 import { SERVER_ENDPOINT } from "../config";
-import compareItems from "../helpers/compareItems";
+import compareItems from "../helpers/compareItems.ts";
 
 class Browser extends React.Component {
   state = { path: [], data: null, error: null };

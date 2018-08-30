@@ -8,8 +8,8 @@ import FaBackward from "react-icons/lib/fa/backward";
 
 import { toggle, pause, next, previous } from "../actions/user";
 import ProgressBar from "../components/ProgressBar";
-import secondsToTimecode from "../helpers/secondsToTimecode";
-import filenameToComponents from "../helpers/filenameToComponents";
+import secondsToTimecode from "../helpers/secondsToTimecode.ts";
+import filenameToComponents from "../helpers/filenameToComponents.ts";
 
 const StyledControls = styled.div`
   border-top: 1px solid #dcdde1;
