@@ -1,6 +1,7 @@
+import { Middleware } from "redux";
 import { toggle } from "../actions/user";
 
-const keyboardMiddleware = ({ dispatch }) => {
+const keyboardMiddleware: Middleware = ({ dispatch }) => {
   document.addEventListener("keydown", event => {
     if (event.key === " ") {
       event.preventDefault();
