@@ -1,8 +1,10 @@
-import React from "react";
+import * as React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { Dispatch } from "redux";
 
 import { playQueueIndex } from "../actions/user";
+import { StoreState } from "../reducers/rootReducer";
 
 const StyledQueue = styled.div`
   padding: 10px;
@@ -40,7 +42,24 @@ const QueueButton = styled.button`
   }
 `;
 
-const Queue = ({ queue, queueIndex, playQueueIndex }) => (
+interface QueueProps {
+  queue: {
+    filename: string;
+    directory: string;
+    id: string;
+  }[];
+  queueIndex: number | null;
+}
+
+interface QueueDispatchProps {
+  playQueueIndex: { (index: number): any };
+}
+
+const Queue: React.SFC<QueueProps & QueueDispatchProps> = ({
+  queue,
+  queueIndex,
+  playQueueIndex,
+}) => (
   <StyledQueue>
     <QueueHeading>Up next</QueueHeading>
     {queue.length > 0 ? (
@@ -64,12 +83,14 @@ const Queue = ({ queue, queueIndex, playQueueIndex }) => (
   </StyledQueue>
 );
 
-const mapStateToProps = ({ player: { queue, queueIndex } }) => ({
+const mapStateToProps = ({
+  player: { queue, queueIndex },
+}: StoreState): QueueProps => ({
   queue,
   queueIndex,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch): QueueDispatchProps => ({
   playQueueIndex: index => dispatch(playQueueIndex(index)),
 });
 
