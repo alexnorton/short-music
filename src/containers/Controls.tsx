@@ -99,14 +99,17 @@ interface ControlsProps {
   playing: boolean;
   duration: number;
   currentTime: number;
-  onToggle: { (): any };
   seekableTo: number;
   file: File;
+}
+
+interface ControlsDispatchProps {
+  onToggle: { (): any };
   onPrevious: { (): any };
   onNext: { (): any };
 }
 
-const Controls: React.SFC<ControlsProps> = ({
+const Controls: React.SFC<ControlsProps & ControlsDispatchProps> = ({
   playing,
   duration,
   currentTime,
@@ -146,13 +149,16 @@ const Controls: React.SFC<ControlsProps> = ({
 );
 
 const mapStateToProps = (
-  { player: { playing, duration, currentTime, queue, queueIndex } }: StoreState,
+  {
+    player: { playing, duration, currentTime, queue, queueIndex, seekableTo },
+  }: StoreState,
   ownProps: ControlsProps
 ): ControlsProps => ({
   ...ownProps,
   playing,
   duration,
   currentTime,
+  seekableTo,
   file: queueIndex !== null && queue[queueIndex],
 });
 

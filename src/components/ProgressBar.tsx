@@ -4,13 +4,13 @@ import styled from "styled-components";
 const ProgressContainer = styled.div`
   height: 4px;
   width: 100%;
-  background-color: #dcdde1;
+  background-color: rgba(220, 221, 225, 0.5);
   position: relative;
 `;
 
 const SeekableBar = styled.div`
   height: 100%;
-  background-color: blue;
+  background-color: #dcdde1;
   position: absolute;
 `;
 
