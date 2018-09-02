@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import * as React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,15 @@ const DirectoriesListItem = styled.li`
   line-height: 1.4em;
 `;
 
-const DirectoriesList = ({ directories, path }) => (
+interface DirectoriesListProps {
+  directories: string[];
+  path: string[];
+}
+
+const DirectoriesList: React.SFC<DirectoriesListProps> = ({
+  directories,
+  path,
+}) => (
   <StyledDirectoriesList>
     {directories.map(directory => (
       <DirectoriesListItem key={directory}>

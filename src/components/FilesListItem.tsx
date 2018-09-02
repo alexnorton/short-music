@@ -1,13 +1,15 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
-import FaPlay from "react-icons/lib/fa/play";
-import FaPause from "react-icons/lib/fa/pause";
-import FaVolumeUp from "react-icons/lib/fa/volume-up";
-import FaVolumeOff from "react-icons/lib/fa/volume-off";
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeOff } from "react-icons/fa";
 
-import filenameToComponents from "../helpers/filenameToComponents.ts";
+import File from "../model/File";
+import filenameToComponents from "../helpers/filenameToComponents";
 
-const StyledFilesListItem = styled.div`
+interface StyledFilesListItemProps {
+  selected: boolean;
+}
+
+const StyledFilesListItem = styled.div<StyledFilesListItemProps>`
   color: ${props => (props.selected ? "#fff" : "#333")};
   cursor: default;
   user-select: none;
@@ -36,7 +38,12 @@ const FileAction = styled.div`
   flex-shrink: 0;
 `;
 
-const TogglePlaybackButton = styled.button`
+interface TogglePlaybackButtonProps {
+  currentFile: boolean;
+  selected: boolean;
+}
+
+const TogglePlaybackButton = styled.button<TogglePlaybackButtonProps>`
   background: none !important;
   padding: 0 !important;
   border: none;
@@ -60,7 +67,13 @@ const TogglePlaybackButton = styled.button`
   }
 `;
 
-const PlayingIcon = styled.div`
+interface PlayingIconProps {
+  currentFile: boolean;
+  selected: boolean;
+  playing: boolean;
+}
+
+const PlayingIcon = styled.div<PlayingIconProps>`
   display: ${props => (props.currentFile ? "inherit" : "none")};
   height: 16px;
   width: 16px;
@@ -81,7 +94,16 @@ const FileName = styled.span`
   flex-shrink: 1;
 `;
 
-const FilesListItem = ({
+interface FilesListItemProps {
+  file: File;
+  selected: boolean;
+  currentFile: boolean;
+  playing: boolean;
+  onPlayFile: { (): any };
+  onToggle: { (): any };
+}
+
+const FilesListItem: React.SFC<FilesListItemProps> = ({
   file,
   selected,
   currentFile,

@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import FaPlay from "react-icons/lib/fa/play";
-import FaPause from "react-icons/lib/fa/pause";
-import FaForward from "react-icons/lib/fa/forward";
-import FaBackward from "react-icons/lib/fa/backward";
+import { FaPlay, FaPause, FaForward, FaBackward } from "react-icons/fa";
 
 import { toggle, pause, next, previous } from "../actions/user";
 import ProgressBar from "../components/ProgressBar";

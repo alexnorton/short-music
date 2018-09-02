@@ -4,15 +4,13 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RouteComponentProps } from "react-router-dom";
 
 import File from "../model/File";
+import DirectoryListing from "../components/DirectoryListing";
 import ApiResponse from "../model/ApiResponse";
 import { loadAndPlayQueue, toggle } from "../actions/user";
 import { SERVER_ENDPOINT } from "../config";
 import compareItems from "../helpers/compareItems";
 import { StoreState } from "../reducers/rootReducer";
-
-const DirectoryListing: React.ComponentType<{
-  [key: string]: any;
-}> = require("../components/DirectoryListing").default;
+import Directory from "../model/Directory";
 
 interface BrowserRouterProps {
   path: string;
@@ -28,7 +26,19 @@ interface BrowserDispatchProps {
   toggle: typeof toggle;
 }
 
-class Browser extends React.Component<BrowserProps & BrowserDispatchProps> {
+interface BrowserState {
+  data: Directory | null;
+  error: {
+    code: number;
+    message: string;
+  } | null;
+  path: string[];
+}
+
+class Browser extends React.Component<
+  BrowserProps & BrowserDispatchProps,
+  BrowserState
+> {
   state = { path: [], data: null, error: null };
 
   async componentDidMount() {
@@ -64,7 +74,7 @@ class Browser extends React.Component<BrowserProps & BrowserDispatchProps> {
 
     const json: ApiResponse = await req.json();
 
-    const data = {
+    const data: Directory = {
       directories: json
         .filter(item => item.type === "directory")
         .map(item => item.name)

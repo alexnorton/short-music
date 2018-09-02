@@ -1,11 +1,12 @@
-import React, { Fragment } from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
 
-import filenameToComponents from "../helpers/filenameToComponents.ts";
+import File from "../model/File";
 import FilesList from "./FilesList";
 import DirectoriesList from "./DirectoriesList";
+import Directory from "../model/Directory";
 
 const Container = styled.div`
   max-width: 800px;
@@ -27,13 +28,33 @@ const ContentTypeHeading = styled.h4`
   font-size: 24px;
 `;
 
-class DirectoryListing extends React.Component {
+interface DirectoryListingProps {
+  data: Directory | null;
+  error: {
+    code: number;
+    message: string;
+  } | null;
+  path: string[];
+  onPlayFiles: { (file: File[]): void };
+  onToggle: { (): void };
+  currentFile: File;
+  playing: boolean;
+}
+
+interface DirectoryListingState {
+  selectedFiles: number[];
+}
+
+class DirectoryListing extends React.Component<
+  DirectoryListingProps,
+  DirectoryListingState
+> {
   state = {
     selectedFiles: [],
   };
 
-  constructor() {
-    super();
+  constructor(props: DirectoryListingProps) {
+    super(props);
 
     this.clearFileSelection = this.clearFileSelection.bind(this);
     this.handleFileSelected = this.handleFileSelected.bind(this);
@@ -43,7 +64,7 @@ class DirectoryListing extends React.Component {
     this.setState({ selectedFiles: [] });
   }
 
-  handleFileSelected(key) {
+  handleFileSelected(key: any) {
     this.setState({ selectedFiles: [key] });
   }
 
@@ -65,11 +86,11 @@ class DirectoryListing extends React.Component {
     return (
       <Container onClick={this.clearFileSelection}>
         {error ? (
-          <Fragment>
+          <>
             <DirectoryHeading>Error {error.code}</DirectoryHeading>
-          </Fragment>
+          </>
         ) : data ? (
-          <Fragment>
+          <>
             <Helmet>
               <title>{title}</title>
             </Helmet>
@@ -89,16 +110,15 @@ class DirectoryListing extends React.Component {
               </Link>
             )}
             {data.directories.length > 0 && (
-              <Fragment>
+              <>
                 <ContentTypeHeading>Directories</ContentTypeHeading>
                 <DirectoriesList directories={data.directories} path={path} />
-              </Fragment>
+              </>
             )}
             {data.files.length > 0 && (
-              <Fragment>
+              <>
                 <ContentTypeHeading>Files</ContentTypeHeading>
                 <FilesList
-                  path={path}
                   files={data.files}
                   onPlayFiles={onPlayFiles}
                   onToggle={onToggle}
@@ -107,13 +127,13 @@ class DirectoryListing extends React.Component {
                   selectedFiles={selectedFiles}
                   onFileSelected={this.handleFileSelected}
                 />
-              </Fragment>
+              </>
             )}
-          </Fragment>
+          </>
         ) : (
-          <Fragment>
+          <>
             <DirectoryHeading>Loading...</DirectoryHeading>
-          </Fragment>
+          </>
         )}
       </Container>
     );

@@ -1,11 +1,21 @@
-import React from "react";
+import * as React from "react";
 
-import MultiSelectList from "./MultiSelectList";
+import File from "../model/File";
 import FilesListItem from "./FilesListItem";
 
-class FilesList extends React.Component {
-  handlePlayFromIndex(index) {
-    const { onPlayFiles, files, path } = this.props;
+interface FilesListProps {
+  files: File[];
+  playing: boolean;
+  currentFile: File;
+  onToggle: { (): any };
+  selectedFiles: any[];
+  onFileSelected: { (file: any): any };
+  onPlayFiles: { (files: File[]): any };
+}
+
+class FilesList extends React.Component<FilesListProps> {
+  handlePlayFromIndex(index: number) {
+    const { onPlayFiles, files } = this.props;
 
     onPlayFiles(files.slice(index));
   }
@@ -13,7 +23,6 @@ class FilesList extends React.Component {
   render() {
     const {
       files,
-      path,
       playing,
       currentFile,
       onToggle,
