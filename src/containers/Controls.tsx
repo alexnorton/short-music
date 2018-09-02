@@ -156,7 +156,7 @@ const mapStateToProps = (
   file: queueIndex !== null && queue[queueIndex],
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (dispatch: Dispatch): ControlsDispatchProps =>
   bindActionCreators(
     {
       onToggle: toggle,

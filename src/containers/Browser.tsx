@@ -125,7 +125,7 @@ const mapStateToProps = (
   playing,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
+const mapDispatchToProps = (dispatch: Dispatch): BrowserDispatchProps =>
   bindActionCreators(
     {
       loadAndPlayQueue,
