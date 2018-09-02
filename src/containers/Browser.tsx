@@ -1,19 +1,41 @@
-import React from "react";
+import * as React from "react";
 import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import { RouteComponentProps } from "react-router-dom";
 
-import DirectoryListing from "../components/DirectoryListing";
+import File from "../model/File";
+import ApiResponse from "../model/ApiResponse";
 import { loadAndPlayQueue, toggle } from "../actions/user";
 import { SERVER_ENDPOINT } from "../config";
-import compareItems from "../helpers/compareItems.ts";
+import compareItems from "../helpers/compareItems";
+import { StoreState } from "../reducers/rootReducer";
 
-class Browser extends React.Component {
+const DirectoryListing: React.ComponentType<{
+  [key: string]: any;
+}> = require("../components/DirectoryListing").default;
+
+interface BrowserRouterProps {
+  path: string;
+}
+
+interface BrowserProps extends RouteComponentProps<BrowserRouterProps> {
+  currentFile: File;
+  playing: boolean;
+}
+
+interface BrowserDispatchProps {
+  loadAndPlayQueue: typeof loadAndPlayQueue;
+  toggle: typeof toggle;
+}
+
+class Browser extends React.Component<BrowserProps & BrowserDispatchProps> {
   state = { path: [], data: null, error: null };
 
   async componentDidMount() {
     await this.updateData();
   }
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps: BrowserProps & BrowserDispatchProps) {
     if (this.props.match.params.path !== prevProps.match.params.path) {
       await this.updateData();
     }
@@ -40,7 +62,7 @@ class Browser extends React.Component {
       return this.setState({ error: { code: req.status, message: body } });
     }
 
-    const json = await req.json();
+    const json: ApiResponse = await req.json();
 
     const data = {
       directories: json
@@ -84,15 +106,23 @@ class Browser extends React.Component {
   }
 }
 
-const mapStateToProps = ({ player: { queue, queueIndex, playing } }) => ({
+const mapStateToProps = (
+  { player: { queue, queueIndex, playing } }: StoreState,
+  ownProps: BrowserProps
+): BrowserProps => ({
+  ...ownProps,
   currentFile: queue && queueIndex !== null && queue[queueIndex],
   playing,
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadAndPlayQueue: queue => dispatch(loadAndPlayQueue(queue)),
-  toggle: () => dispatch(toggle()),
-});
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      loadAndPlayQueue,
+      toggle,
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,

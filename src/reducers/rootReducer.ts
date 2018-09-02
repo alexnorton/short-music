@@ -71,6 +71,10 @@ const player = (
   }
 };
 
-const rootReducer = combineReducers({ player });
+export interface StoreState {
+  player: PlayerState;
+}
+
+const rootReducer = combineReducers<StoreState>({ player });
 
 export default rootReducer;
