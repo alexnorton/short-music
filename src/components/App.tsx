@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
@@ -40,7 +40,7 @@ const QueueToggle = styled.button`
 
 class App extends React.Component {
   state = {
-    showQueue: false
+    showQueue: false,
   };
 
   toggleQueue = () => {

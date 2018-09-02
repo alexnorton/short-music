@@ -4,8 +4,7 @@ import { Provider } from "react-redux";
 
 import Player from "./player/Player";
 import configureStore from "./store/configureStore";
-
-const App: React.ComponentType = require("./components/App").default;
+import App from "./components/App";
 
 import "./globalStyles";
 

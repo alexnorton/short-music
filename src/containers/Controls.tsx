@@ -148,13 +148,9 @@ const Controls: React.SFC<ControlsProps & ControlsDispatchProps> = ({
   </StyledControls>
 );
 
-const mapStateToProps = (
-  {
-    player: { playing, duration, currentTime, queue, queueIndex, seekableTo },
-  }: StoreState,
-  ownProps: ControlsProps
-): ControlsProps => ({
-  ...ownProps,
+const mapStateToProps = ({
+  player: { playing, duration, currentTime, queue, queueIndex, seekableTo },
+}: StoreState): ControlsProps => ({
   playing,
   duration,
   currentTime,
