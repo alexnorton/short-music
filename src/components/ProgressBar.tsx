@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
 
 const ProgressContainer = styled.div`
@@ -20,14 +20,22 @@ const PlayedBar = styled.div`
   position: absolute;
 `;
 
-const ProgressBar = ({ duration, seekableTo, currentTime }) => (
+interface ProgressBarProps {
+  duration: number;
+  seekableTo: number;
+  currentTime: number;
+}
+
+const ProgressBar: React.SFC<ProgressBarProps> = ({
+  duration,
+  seekableTo,
+  currentTime,
+}) => (
   <ProgressContainer>
     <SeekableBar
-      duration={duration}
       style={{ width: `${duration ? (seekableTo / duration) * 100 : 0}%` }}
     />
     <PlayedBar
-      duration={duration}
       style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
     />
   </ProgressContainer>

@@ -1,12 +1,15 @@
-import React from "react";
+import * as React from "react";
 import { connect } from "react-redux";
+import { Dispatch, bindActionCreators } from "redux";
 import styled from "styled-components";
 import { FaPlay, FaPause, FaForward, FaBackward } from "react-icons/fa";
 
-import { toggle, pause, next, previous } from "../actions/user";
+import { toggle, next, previous } from "../actions/user";
 import ProgressBar from "../components/ProgressBar";
-import secondsToTimecode from "../helpers/secondsToTimecode.ts";
-import filenameToComponents from "../helpers/filenameToComponents.ts";
+import secondsToTimecode from "../helpers/secondsToTimecode";
+import filenameToComponents from "../helpers/filenameToComponents";
+import { StoreState } from "../reducers/rootReducer";
+import File from "../model/File";
 
 const StyledControls = styled.div`
   border-top: 1px solid #dcdde1;
@@ -69,7 +72,11 @@ const StyledFileName = styled.span`
   white-space: nowrap;
 `;
 
-const FileName = ({ filename }) => {
+interface FileNameProps {
+  filename: string;
+}
+
+const FileName: React.SFC<FileNameProps> = ({ filename }) => {
   const { number, name, extension } = filenameToComponents(filename);
 
   return (
@@ -88,7 +95,18 @@ const ProgressContainer = styled.div`
   margin-right: auto;
 `;
 
-const Controls = ({
+interface ControlsProps {
+  playing: boolean;
+  duration: number;
+  currentTime: number;
+  onToggle: { (): any };
+  seekableTo: number;
+  file: File;
+  onPrevious: { (): any };
+  onNext: { (): any };
+}
+
+const Controls: React.SFC<ControlsProps> = ({
   playing,
   duration,
   currentTime,
@@ -127,20 +145,26 @@ const Controls = ({
   </StyledControls>
 );
 
-const mapStateToProps = ({
-  player: { playing, duration, currentTime, queue, queueIndex },
-}) => ({
+const mapStateToProps = (
+  { player: { playing, duration, currentTime, queue, queueIndex } }: StoreState,
+  ownProps: ControlsProps
+): ControlsProps => ({
+  ...ownProps,
   playing,
   duration,
   currentTime,
-  file: queue[queueIndex],
+  file: queueIndex !== null && queue[queueIndex],
 });
 
-const mapDispatchToProps = dispatch => ({
-  onToggle: () => dispatch(toggle()),
-  onNext: () => dispatch(next()),
-  onPrevious: () => dispatch(previous()),
-});
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  bindActionCreators(
+    {
+      onToggle: toggle,
+      onNext: next,
+      onPrevious: previous,
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,
