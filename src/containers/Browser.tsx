@@ -5,21 +5,23 @@ import { RouteComponentProps } from "react-router-dom";
 
 import File from "../model/File";
 import DirectoryListing from "../components/DirectoryListing";
-import ApiResponse from "../model/ApiResponse";
 import { loadAndPlayQueue, toggle } from "../actions/user";
 import { fetchDirectory } from "../actions/library";
-import { SERVER_ENDPOINT } from "../config";
-import compareItems from "../helpers/compareItems";
 import { StoreState } from "../reducers/rootReducer";
 import Directory from "../model/Directory";
 
 interface BrowserRouterProps {
-  path: string;
+  path?: string;
 }
 
 interface BrowserProps extends RouteComponentProps<BrowserRouterProps> {
   currentFile: File;
   playing: boolean;
+  directory: {
+    contents?: Directory;
+    isFetching: boolean;
+    error?: string;
+  };
 }
 
 interface BrowserDispatchProps {
@@ -28,21 +30,7 @@ interface BrowserDispatchProps {
   fetchDirectory: typeof fetchDirectory;
 }
 
-interface BrowserState {
-  data: Directory | null;
-  error: {
-    code: number;
-    message: string;
-  } | null;
-  path: string[];
-}
-
-class Browser extends React.Component<
-  BrowserProps & BrowserDispatchProps,
-  BrowserState
-> {
-  state = { path: [], data: null, error: null };
-
+class Browser extends React.PureComponent<BrowserProps & BrowserDispatchProps> {
   async componentDidMount() {
     await this.updateData();
   }
@@ -54,79 +42,53 @@ class Browser extends React.Component<
   }
 
   async updateData() {
-    this.setState({
-      data: null,
-      error: null,
-    });
+    const path = this.props.match.params.path || "";
 
-    const path = this.props.match.params.path
-      ? this.props.match.params.path.split("/")
-      : [];
-
-    this.props.fetchDirectory(path.join("/"));
-
-    this.setState({
-      path,
-    });
-
-    const req = await fetch(`${SERVER_ENDPOINT}/${[...path, ""].join("/")}`);
-
-    if (req.status !== 200) {
-      const body = await req.text();
-      return this.setState({ error: { code: req.status, message: body } });
+    if (!this.props.directory) {
+      this.props.fetchDirectory(path);
     }
-
-    const json: ApiResponse = await req.json();
-
-    const data: Directory = {
-      directories: json
-        .filter(item => item.type === "directory")
-        .map(item => item.name)
-        .sort(compareItems),
-      files: json
-        .filter(item => item.type === "file" || item.type === "url")
-        .map(item => ({
-          directory: path.join("/"),
-          filename: item.name,
-          title: item.name,
-          url:
-            item.type === "url"
-              ? item.url
-              : `${SERVER_ENDPOINT}/${[...path, item.name].join("/")}`,
-        }))
-        .sort((a, b) => compareItems(a.title, b.title)),
-    };
-
-    this.setState({
-      data,
-    });
   }
 
   render() {
-    const { path, data, error } = this.state;
-    const { loadAndPlayQueue, toggle, currentFile, playing } = this.props;
+    const {
+      loadAndPlayQueue,
+      toggle,
+      currentFile,
+      playing,
+      directory
+    } = this.props;
 
-    return (
-      <DirectoryListing
-        path={path}
-        data={data}
-        error={error}
-        onPlayFiles={loadAndPlayQueue}
-        onToggle={toggle}
-        playing={playing}
-        currentFile={currentFile}
-      />
-    );
+    if (directory) {
+      const { contents, error } = directory;
+
+      const path = this.props.match.params.path
+        ? this.props.match.params.path.split("/")
+        : [];
+
+      return (
+        <DirectoryListing
+          path={path}
+          data={contents}
+          error={error}
+          onPlayFiles={loadAndPlayQueue}
+          onToggle={toggle}
+          playing={playing}
+          currentFile={currentFile}
+        />
+      );
+    }
+    return null;
   }
 }
 
 const mapStateToProps = (
-  { player: { queue, queueIndex, playing } }: StoreState,
+  { player: { queue, queueIndex, playing }, library }: StoreState,
   ownProps: BrowserProps
 ): BrowserProps => ({
   ...ownProps,
   currentFile: queue && queueIndex !== null && queue[queueIndex],
   playing,
+  directory: library["/" + (ownProps.match.params.path || "")]
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): BrowserDispatchProps =>
@@ -134,7 +96,7 @@ const mapDispatchToProps = (dispatch: Dispatch): BrowserDispatchProps =>
     {
       loadAndPlayQueue,
       toggle,
-      fetchDirectory,
+      fetchDirectory
     },
     dispatch
   );

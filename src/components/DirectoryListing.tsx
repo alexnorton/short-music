@@ -29,11 +29,8 @@ const ContentTypeHeading = styled.h4`
 `;
 
 interface DirectoryListingProps {
-  data: Directory | null;
-  error: {
-    code: number;
-    message: string;
-  } | null;
+  data?: Directory;
+  error?: string;
   path: string[];
   onPlayFiles: { (file: File[]): void };
   onToggle: { (): void };
@@ -50,7 +47,7 @@ class DirectoryListing extends React.Component<
   DirectoryListingState
 > {
   state = {
-    selectedFiles: [],
+    selectedFiles: []
   };
 
   constructor(props: DirectoryListingProps) {
@@ -76,7 +73,7 @@ class DirectoryListing extends React.Component<
       onPlayFiles,
       onToggle,
       currentFile,
-      playing,
+      playing
     } = this.props;
 
     const { selectedFiles } = this.state;
@@ -87,7 +84,7 @@ class DirectoryListing extends React.Component<
       <Container onClick={this.clearFileSelection}>
         {error ? (
           <>
-            <DirectoryHeading>Error {error.code}</DirectoryHeading>
+            <DirectoryHeading>Error {error}</DirectoryHeading>
           </>
         ) : data ? (
           <>
