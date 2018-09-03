@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Dispatch } from "redux";
+import { bindActionCreators, Dispatch } from "redux";
 
 import { playQueueIndex } from "../actions/user";
 import { StoreState } from "../reducers/rootReducer";
@@ -90,9 +90,13 @@ const mapStateToProps = ({
   queueIndex,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): QueueDispatchProps => ({
-  playQueueIndex: index => dispatch(playQueueIndex(index)),
-});
+const mapDispatchToProps = (dispatch: Dispatch): QueueDispatchProps =>
+  bindActionCreators(
+    {
+      playQueueIndex,
+    },
+    dispatch
+  );
 
 export default connect(
   mapStateToProps,
