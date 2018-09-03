@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
 
 import rootReducer from "../reducers/rootReducer";
 import playerMiddleware from "../middleware/playerMiddleware";
@@ -16,7 +17,7 @@ const configureStore = (player: Player) =>
   createStore(
     rootReducer,
     composeEnhancers(
-      applyMiddleware(playerMiddleware(player), keyboardMiddleware)
+      applyMiddleware(thunk, playerMiddleware(player), keyboardMiddleware)
     )
   );
 

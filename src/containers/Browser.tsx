@@ -7,6 +7,7 @@ import File from "../model/File";
 import DirectoryListing from "../components/DirectoryListing";
 import ApiResponse from "../model/ApiResponse";
 import { loadAndPlayQueue, toggle } from "../actions/user";
+import { fetchDirectory } from "../actions/library";
 import { SERVER_ENDPOINT } from "../config";
 import compareItems from "../helpers/compareItems";
 import { StoreState } from "../reducers/rootReducer";
@@ -24,6 +25,7 @@ interface BrowserProps extends RouteComponentProps<BrowserRouterProps> {
 interface BrowserDispatchProps {
   loadAndPlayQueue: typeof loadAndPlayQueue;
   toggle: typeof toggle;
+  fetchDirectory: typeof fetchDirectory;
 }
 
 interface BrowserState {
@@ -60,6 +62,8 @@ class Browser extends React.Component<
     const path = this.props.match.params.path
       ? this.props.match.params.path.split("/")
       : [];
+
+    this.props.fetchDirectory(path.join("/"));
 
     this.setState({
       path,
@@ -130,6 +134,7 @@ const mapDispatchToProps = (dispatch: Dispatch): BrowserDispatchProps =>
     {
       loadAndPlayQueue,
       toggle,
+      fetchDirectory,
     },
     dispatch
   );
