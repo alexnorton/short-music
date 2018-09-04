@@ -1,5 +1,5 @@
 export default interface File {
-  directory: string;
+  directory: string[];
   filename: string;
   title: string;
   url: string;

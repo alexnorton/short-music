@@ -9,3 +9,5 @@ const arePathsEqual = (a: string[], b: string[]): boolean => {
 
   return true;
 };
+
+export default arePathsEqual;

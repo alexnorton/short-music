@@ -8,9 +8,9 @@ import { SERVER_ENDPOINT } from "../config";
 export const DIRECTORY_REQUEST = "DIRECTORY_REQUEST";
 export interface DirectoryRequest {
   type: typeof DIRECTORY_REQUEST;
-  path: string;
+  path: string[];
 }
-export const directoryRequest = (path: string): DirectoryRequest => ({
+export const directoryRequest = (path: string[]): DirectoryRequest => ({
   type: DIRECTORY_REQUEST,
   path,
 });
@@ -18,11 +18,11 @@ export const directoryRequest = (path: string): DirectoryRequest => ({
 export const DIRECTORY_FAILURE = "DIRECTORY_FAILURE";
 export interface DirectoryFailure {
   type: typeof DIRECTORY_FAILURE;
-  path: string;
+  path: string[];
   error: string;
 }
 export const directoryFailure = (
-  path: string,
+  path: string[],
   error: string
 ): DirectoryFailure => ({
   type: DIRECTORY_FAILURE,
@@ -33,11 +33,11 @@ export const directoryFailure = (
 export const DIRECTORY_SUCCESS = "DIRECTORY_SUCCESS";
 export interface DirectorySuccess {
   type: typeof DIRECTORY_SUCCESS;
-  path: string;
+  path: string[];
   directory: DirectoryContents;
 }
 export const directorySuccess = (
-  path: string,
+  path: string[],
   directory: DirectoryContents
 ): DirectorySuccess => ({
   type: DIRECTORY_SUCCESS,
@@ -45,11 +45,15 @@ export const directorySuccess = (
   directory,
 });
 
-export const fetchDirectory = (path: string) => async (dispatch: Dispatch) => {
+export const fetchDirectory = (path: string[]) => async (
+  dispatch: Dispatch
+) => {
   dispatch(directoryRequest(path));
 
   try {
-    const req = await fetch(`${SERVER_ENDPOINT}/${path}`);
+    const joinedPath = path.join("/");
+
+    const req = await fetch(`${SERVER_ENDPOINT}/${joinedPath}`);
 
     if (req.status !== 200) {
       throw Error(`${req.status} ${req.statusText}`);
@@ -71,7 +75,7 @@ export const fetchDirectory = (path: string) => async (dispatch: Dispatch) => {
           url:
             item.type === "url"
               ? item.url
-              : `${SERVER_ENDPOINT}/${path}/${item.name}`,
+              : `${SERVER_ENDPOINT}/${joinedPath}/${item.name}`,
         }))
         .sort((a, b) => compareItems(a.title, b.title)),
     };

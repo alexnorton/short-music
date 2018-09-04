@@ -4,11 +4,11 @@ import { bindActionCreators, Dispatch } from "redux";
 import { RouteComponentProps } from "react-router-dom";
 
 import File from "../model/File";
+import Directory from "../model/Directory";
 import DirectoryListing from "../components/DirectoryListing";
 import { loadAndPlayQueue, toggle } from "../actions/user";
 import { fetchDirectory } from "../actions/library";
 import { StoreState } from "../reducers/rootReducer";
-import Directory from "../model/Directory";
 
 interface BrowserRouterProps {
   path?: string;
@@ -38,7 +38,9 @@ class Browser extends React.PureComponent<BrowserProps & BrowserDispatchProps> {
   }
 
   async updateData() {
-    const path = this.props.match.params.path || "";
+    const path = this.props.match.params.path
+      ? this.props.match.params.path.split("/")
+      : [];
 
     if (!this.props.directory) {
       this.props.fetchDirectory(path);
