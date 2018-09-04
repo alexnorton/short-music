@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 
 import { playQueueIndex } from "../actions/user";
 import { StoreState } from "../reducers/rootReducer";
+import QueueItem from "../player/QueueItem";
 
 const StyledQueue = styled.div`
   padding: 10px;
@@ -43,11 +44,7 @@ const QueueButton = styled.button`
 `;
 
 interface QueueProps {
-  queue: {
-    filename: string;
-    directory: string;
-    id: string;
-  }[];
+  queue: QueueItem[];
   queueIndex: number | null;
 }
 
@@ -64,7 +61,7 @@ const Queue: React.SFC<QueueProps & QueueDispatchProps> = ({
     <QueueHeading>Up next</QueueHeading>
     {queue.length > 0 ? (
       <QueueList>
-        {queue.map(({ filename, directory, id }, index) => {
+        {queue.map(({ file: { filename, directory }, id }, index) => {
           return (
             <QueueItem key={id}>
               <QueueButton onClick={() => playQueueIndex(index)}>
@@ -72,7 +69,7 @@ const Queue: React.SFC<QueueProps & QueueDispatchProps> = ({
                 {filename}
               </QueueButton>
               <br />
-              {directory}
+              {directory.join("/")}
             </QueueItem>
           );
         })}
@@ -85,6 +82,7 @@ const Queue: React.SFC<QueueProps & QueueDispatchProps> = ({
 
 const mapStateToProps = ({
   player: { queue, queueIndex },
+  library,
 }: StoreState): QueueProps => ({
   queue,
   queueIndex,

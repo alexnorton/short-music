@@ -34,7 +34,7 @@ interface DirectoryListingProps {
   path: string[];
   onPlayFiles: { (file: File[]): void };
   onToggle: { (): void };
-  currentFile: File;
+  currentFile?: File;
   playing: boolean;
 }
 

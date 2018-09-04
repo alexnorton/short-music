@@ -7,7 +7,7 @@ import {
 } from "../actions/library";
 
 export interface LibraryState {
-  [path: string]: Directory;
+  [path: string]: Directory | undefined;
 }
 
 const pathToKey = (path: string[]) => `/${path.join("/")}`;

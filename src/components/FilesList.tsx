@@ -6,7 +6,7 @@ import FilesListItem from "./FilesListItem";
 interface FilesListProps {
   files: File[];
   playing: boolean;
-  currentFile: File;
+  currentFile?: File;
   onToggle: { (): any };
   selectedFiles: any[];
   onFileSelected: { (file: any): any };
@@ -34,10 +34,12 @@ class FilesList extends React.Component<FilesListProps> {
       <div>
         {files.map((file, index) => {
           const key = file.filename;
-          const isCurrentFile =
-            currentFile &&
-            `${file.directory}/${file.filename}` ===
-              `${currentFile.directory}/${currentFile.filename}`;
+
+          const isCurrentFile = currentFile
+            ? `${file.directory}/${file.filename}` ===
+              `${currentFile.directory}/${currentFile.filename}`
+            : false;
+
           return (
             <div
               key={key}

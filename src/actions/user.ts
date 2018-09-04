@@ -1,9 +1,11 @@
+import File from "../model/File";
+
 export const PLAY_FILE = "PLAY_FILE";
 export interface PlayFile {
   type: typeof PLAY_FILE;
-  file: any;
+  file: File;
 }
-export const playFile = (path: any, file: any): PlayFile => ({
+export const playFile = (file: File): PlayFile => ({
   type: PLAY_FILE,
   file,
 });
@@ -29,9 +31,9 @@ export const toggle = (): Toggle => ({ type: TOGGLE });
 export const LOAD_AND_PLAY_QUEUE = "LOAD_AND_PLAY_QUEUE";
 export interface LoadAndPlayQueue {
   type: typeof LOAD_AND_PLAY_QUEUE;
-  queue: Array<any>;
+  queue: File[];
 }
-export const loadAndPlayQueue = (queue: Array<any>): LoadAndPlayQueue => ({
+export const loadAndPlayQueue = (queue: File[]): LoadAndPlayQueue => ({
   type: LOAD_AND_PLAY_QUEUE,
   queue,
 });

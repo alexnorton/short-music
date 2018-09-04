@@ -1,12 +1,15 @@
 import * as uuidv4 from "uuid/v4";
 
+import PlayerFile from "./PlayerFile";
+import QueueItem from "./QueueItem";
+
 class Player {
   audio: HTMLAudioElement;
-  queue: Array<any>;
+  queue: QueueItem[];
   queueIndex: number | null;
 
   onPlaying?: { (): void };
-  onQueueChanged?: { (queue: Array<any>): void };
+  onQueueChanged?: { (queue: QueueItem[]): void };
   onFileChanged?: { (queueIndex: number): void };
   onTimeUpdate?: { (time: number): void };
   onLoadedMetadata?: { (duration: number): void };
@@ -28,7 +31,7 @@ class Player {
 
   // Control methods
 
-  playFile(file: any) {
+  playFile(file: PlayerFile) {
     this.audio.src = file.url;
     this.audio.play();
   }
@@ -49,13 +52,13 @@ class Player {
     this.pause();
   }
 
-  loadAndPlayQueue(files: Array<any>) {
+  loadAndPlayQueue(files: PlayerFile[]) {
     this.updateQueue(files);
     this.playQueueIndex(0);
   }
 
-  updateQueue(files: Array<any>) {
-    this.queue = files.map(file => ({ ...file, id: uuidv4() }));
+  updateQueue(files: PlayerFile[]) {
+    this.queue = files.map(file => ({ file, id: uuidv4() }));
 
     if (this.onQueueChanged) {
       this.onQueueChanged(this.queue);
@@ -64,13 +67,12 @@ class Player {
 
   playQueueIndex(index: number) {
     this.queueIndex = index;
-    const file = this.queue[this.queueIndex];
+    const queueItem = this.queue[this.queueIndex];
+    this.playFile(queueItem.file);
 
     if (this.onFileChanged) {
       this.onFileChanged(this.queueIndex);
     }
-
-    this.playFile(file);
   }
 
   previous() {

@@ -10,6 +10,7 @@ import secondsToTimecode from "../helpers/secondsToTimecode";
 import filenameToComponents from "../helpers/filenameToComponents";
 import { StoreState } from "../reducers/rootReducer";
 import File from "../model/File";
+import getFileFromLibrary from "../helpers/getFileFromLibrary";
 
 const StyledControls = styled.div`
   border-top: 1px solid #dcdde1;
@@ -100,7 +101,7 @@ interface ControlsProps {
   duration: number;
   currentTime: number;
   seekableTo: number;
-  file: File;
+  file?: File;
 }
 
 interface ControlsDispatchProps {
@@ -150,12 +151,21 @@ const Controls: React.SFC<ControlsProps & ControlsDispatchProps> = ({
 
 const mapStateToProps = ({
   player: { playing, duration, currentTime, queue, queueIndex, seekableTo },
+  library,
 }: StoreState): ControlsProps => ({
   playing,
   duration,
   currentTime,
   seekableTo,
-  file: queueIndex !== null && queue[queueIndex],
+  file:
+    (queue &&
+      queueIndex !== null &&
+      getFileFromLibrary(
+        library,
+        queue[queueIndex].file.directory,
+        queue[queueIndex].file.filename
+      )) ||
+    undefined,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): ControlsDispatchProps =>

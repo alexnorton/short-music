@@ -9,15 +9,16 @@ import DirectoryListing from "../components/DirectoryListing";
 import { loadAndPlayQueue, toggle } from "../actions/user";
 import { fetchDirectory } from "../actions/library";
 import { StoreState } from "../reducers/rootReducer";
+import getFileFromLibrary from "../helpers/getFileFromLibrary";
 
 interface BrowserRouterProps {
   path?: string;
 }
 
 interface BrowserProps extends RouteComponentProps<BrowserRouterProps> {
-  currentFile: File;
+  directory?: Directory;
+  currentFile?: File;
   playing: boolean;
-  directory: Directory;
 }
 
 interface BrowserDispatchProps {
@@ -84,7 +85,15 @@ const mapStateToProps = (
   ownProps: BrowserProps
 ): BrowserProps => ({
   ...ownProps,
-  currentFile: queue && queueIndex !== null && queue[queueIndex],
+  currentFile:
+    (queue &&
+      queueIndex !== null &&
+      getFileFromLibrary(
+        library,
+        queue[queueIndex].file.directory,
+        queue[queueIndex].file.filename
+      )) ||
+    undefined,
   playing,
   directory: library["/" + (ownProps.match.params.path || "")],
 });

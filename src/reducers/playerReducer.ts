@@ -1,3 +1,4 @@
+import QueueItem from "../player/QueueItem";
 import {
   PlayerAction,
   PLAYING,
@@ -14,7 +15,7 @@ export interface PlayerState {
   duration: number;
   currentTime: number;
   seekableTo: number;
-  queue: Array<any>;
+  queue: QueueItem[];
   queueIndex: number | null;
 }
 
