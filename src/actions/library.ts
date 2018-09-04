@@ -52,8 +52,7 @@ export const fetchDirectory = (path: string) => async (dispatch: Dispatch) => {
     const req = await fetch(`${SERVER_ENDPOINT}/${path}`);
 
     if (req.status !== 200) {
-      const body = await req.text();
-      throw Error(body);
+      throw Error(`${req.status} ${req.statusText}`);
     }
 
     const json: ApiResponse = await req.json();

@@ -84,7 +84,11 @@ class DirectoryListing extends React.Component<
       <Container onClick={this.clearFileSelection}>
         {error ? (
           <>
-            <DirectoryHeading>Error {error}</DirectoryHeading>
+            <DirectoryHeading>
+              Error
+              <br />
+              <DirectorySubHeading>{error}</DirectorySubHeading>
+            </DirectoryHeading>
           </>
         ) : data ? (
           <>
