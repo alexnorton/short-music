@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import File from "../model/File";
 import FilesList from "./FilesList";
 import DirectoriesList from "./DirectoriesList";
-import Directory from "../model/Directory";
+import DirectoryContents from "../model/DirectoryContents";
 
 const Container = styled.div`
   max-width: 800px;
@@ -29,7 +29,7 @@ const ContentTypeHeading = styled.h4`
 `;
 
 interface DirectoryListingProps {
-  data?: Directory;
+  data?: DirectoryContents;
   error?: string;
   path: string[];
   onPlayFiles: { (file: File[]): void };
@@ -39,7 +39,7 @@ interface DirectoryListingProps {
 }
 
 interface DirectoryListingState {
-  selectedFiles: number[];
+  selectedFiles: any[];
 }
 
 class DirectoryListing extends React.Component<
@@ -47,7 +47,7 @@ class DirectoryListing extends React.Component<
   DirectoryListingState
 > {
   state = {
-    selectedFiles: []
+    selectedFiles: [],
   };
 
   constructor(props: DirectoryListingProps) {
@@ -73,7 +73,7 @@ class DirectoryListing extends React.Component<
       onPlayFiles,
       onToggle,
       currentFile,
-      playing
+      playing,
     } = this.props;
 
     const { selectedFiles } = this.state;

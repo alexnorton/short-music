@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 
-import Directory from "../model/Directory";
+import DirectoryContents from "../model/DirectoryContents";
 import ApiResponse from "../model/ApiResponse";
 import compareItems from "../helpers/compareItems";
 import { SERVER_ENDPOINT } from "../config";
@@ -34,11 +34,11 @@ export const DIRECTORY_SUCCESS = "DIRECTORY_SUCCESS";
 export interface DirectorySuccess {
   type: typeof DIRECTORY_SUCCESS;
   path: string;
-  directory: Directory;
+  directory: DirectoryContents;
 }
 export const directorySuccess = (
   path: string,
-  directory: Directory
+  directory: DirectoryContents
 ): DirectorySuccess => ({
   type: DIRECTORY_SUCCESS,
   path,
@@ -58,7 +58,7 @@ export const fetchDirectory = (path: string) => async (dispatch: Dispatch) => {
 
     const json: ApiResponse = await req.json();
 
-    const directory: Directory = {
+    const contents: DirectoryContents = {
       directories: json
         .filter(item => item.type === "directory")
         .map(item => item.name)
@@ -76,7 +76,7 @@ export const fetchDirectory = (path: string) => async (dispatch: Dispatch) => {
         }))
         .sort((a, b) => compareItems(a.title, b.title)),
     };
-    dispatch(directorySuccess(path, directory));
+    dispatch(directorySuccess(path, contents));
   } catch (error) {
     dispatch(directoryFailure(path, error.message));
   }

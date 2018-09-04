@@ -3,15 +3,11 @@ import {
   LibraryAction,
   DIRECTORY_REQUEST,
   DIRECTORY_FAILURE,
-  DIRECTORY_SUCCESS
+  DIRECTORY_SUCCESS,
 } from "../actions/library";
 
 export interface LibraryState {
-  [path: string]: {
-    contents?: Directory;
-    isFetching: boolean;
-    error?: string;
-  };
+  [path: string]: Directory;
 }
 
 const libraryReducer = (
@@ -23,8 +19,8 @@ const libraryReducer = (
       return {
         ...state,
         ["/" + action.path]: {
-          isFetching: true
-        }
+          isFetching: true,
+        },
       };
     case DIRECTORY_FAILURE:
       return {
@@ -32,8 +28,8 @@ const libraryReducer = (
         ["/" + action.path]: {
           ...state[action.path],
           isFetching: false,
-          error: action.error
-        }
+          error: action.error,
+        },
       };
     case DIRECTORY_SUCCESS:
       return {
@@ -41,8 +37,8 @@ const libraryReducer = (
         ["/" + action.path]: {
           ...state[action.path],
           isFetching: false,
-          contents: action.directory
-        }
+          contents: action.directory,
+        },
       };
     default:
       return state;

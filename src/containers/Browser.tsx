@@ -17,11 +17,7 @@ interface BrowserRouterProps {
 interface BrowserProps extends RouteComponentProps<BrowserRouterProps> {
   currentFile: File;
   playing: boolean;
-  directory: {
-    contents?: Directory;
-    isFetching: boolean;
-    error?: string;
-  };
+  directory: Directory;
 }
 
 interface BrowserDispatchProps {
@@ -55,7 +51,7 @@ class Browser extends React.PureComponent<BrowserProps & BrowserDispatchProps> {
       toggle,
       currentFile,
       playing,
-      directory
+      directory,
     } = this.props;
 
     if (directory) {
@@ -88,7 +84,7 @@ const mapStateToProps = (
   ...ownProps,
   currentFile: queue && queueIndex !== null && queue[queueIndex],
   playing,
-  directory: library["/" + (ownProps.match.params.path || "")]
+  directory: library["/" + (ownProps.match.params.path || "")],
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): BrowserDispatchProps =>
@@ -96,7 +92,7 @@ const mapDispatchToProps = (dispatch: Dispatch): BrowserDispatchProps =>
     {
       loadAndPlayQueue,
       toggle,
-      fetchDirectory
+      fetchDirectory,
     },
     dispatch
   );

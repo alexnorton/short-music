@@ -1,6 +1,7 @@
-import File from "./File";
+import DirectoryContents from "./DirectoryContents";
 
 export default interface Directory {
-  directories: string[];
-  files: File[];
+  contents?: DirectoryContents;
+  isFetching: boolean;
+  error?: string;
 }
