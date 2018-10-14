@@ -17,6 +17,7 @@ const Main = styled.div`
   height: 100%;
   flex: 1;
   position: relative;
+  overflow-y: scroll;
 `;
 
 const Side = styled.div`
