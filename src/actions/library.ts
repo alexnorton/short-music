@@ -51,7 +51,7 @@ export const fetchDirectory = (path: string[]) => async (
   dispatch(directoryRequest(path));
 
   try {
-    const joinedPath = path.join("/");
+    const joinedPath = path.reduce((acc, partPath) => `${acc}${partPath}/`, "");
 
     const req = await fetch(`${SERVER_ENDPOINT}/${joinedPath}`);
 
@@ -75,7 +75,7 @@ export const fetchDirectory = (path: string[]) => async (
           url:
             item.type === "url"
               ? item.url
-              : `${SERVER_ENDPOINT}/${joinedPath}/${item.name}`,
+              : `${SERVER_ENDPOINT}/${joinedPath}${item.name}`,
         }))
         .sort((a, b) => compareItems(a.title, b.title)),
     };
