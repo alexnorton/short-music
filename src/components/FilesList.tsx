@@ -2,6 +2,7 @@ import * as React from "react";
 
 import File from "../model/File";
 import FilesListItem from "./FilesListItem";
+import areFilesEqual from "../helpers/areFilesEqual";
 
 interface FilesListProps {
   files: File[];
@@ -36,8 +37,7 @@ class FilesList extends React.Component<FilesListProps> {
           const key = file.filename;
 
           const isCurrentFile = currentFile
-            ? `${file.directory}/${file.filename}` ===
-              `${currentFile.directory}/${currentFile.filename}`
+            ? areFilesEqual(file, currentFile)
             : false;
 
           return (
