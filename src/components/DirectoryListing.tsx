@@ -2,11 +2,14 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Helmet } from "react-helmet";
+import { FaPlay, FaPause } from "react-icons/fa";
+import memoized from "fast-memoize";
 
 import File from "../model/File";
 import FilesList from "./FilesList";
 import DirectoriesList from "./DirectoriesList";
 import DirectoryContents from "../model/DirectoryContents";
+import areFilesEqual from "../helpers/areFilesEqual";
 
 const Container = styled.div`
   max-width: 800px;
@@ -15,6 +18,17 @@ const Container = styled.div`
 
 const DirectoryHeading = styled.h2`
   font-size: 32px;
+`;
+
+const PlayAllButton = styled.span`
+  display: none;
+  color: #2980b9;
+  font-size: 22px;
+  margin-left: 5px;
+
+  ${DirectoryHeading}:hover & {
+    display: inline-block;
+  }
 `;
 
 const DirectorySubHeading = styled.span`
@@ -55,7 +69,20 @@ class DirectoryListing extends React.Component<
 
     this.clearFileSelection = this.clearFileSelection.bind(this);
     this.handleFileSelected = this.handleFileSelected.bind(this);
+    this.handlePlayAll = this.handlePlayAll.bind(this);
   }
+
+  isCurrentFileInDirectory = memoized((currentFile?: File) => {
+    const { data } = this.props;
+    return (
+      (currentFile &&
+        data &&
+        data.files.length > 0 &&
+        data.files.filter(file => areFilesEqual(file, currentFile)).length >
+          0) ||
+      false
+    );
+  });
 
   clearFileSelection() {
     this.setState({ selectedFiles: [] });
@@ -63,6 +90,19 @@ class DirectoryListing extends React.Component<
 
   handleFileSelected(key: any) {
     this.setState({ selectedFiles: [key] });
+  }
+
+  handlePlayAll(currentFileIsInDirectory: boolean) {
+    const { data, onPlayFiles, onToggle } = this.props;
+
+    if (data && data.files.length > 0) {
+      if (currentFileIsInDirectory) {
+        onToggle();
+        return;
+      }
+
+      onPlayFiles(data.files);
+    }
   }
 
   render() {
@@ -77,6 +117,8 @@ class DirectoryListing extends React.Component<
     } = this.props;
 
     const { selectedFiles } = this.state;
+
+    const currentFileIsInDirectory = this.isCurrentFileInDirectory(currentFile);
 
     const title = path && path.length > 0 ? path[path.length - 1] : "Home";
 
@@ -95,8 +137,19 @@ class DirectoryListing extends React.Component<
             <Helmet>
               <title>{title}</title>
             </Helmet>
-            <DirectoryHeading>
+            <DirectoryHeading
+              onClick={() => this.handlePlayAll(currentFileIsInDirectory)}
+            >
               {title}
+              {data.files.length > 0 && (
+                <PlayAllButton>
+                  {playing && currentFileIsInDirectory ? (
+                    <FaPause />
+                  ) : (
+                    <FaPlay />
+                  )}
+                </PlayAllButton>
+              )}
               {path &&
                 path.length > 1 && (
                   <DirectorySubHeading>
