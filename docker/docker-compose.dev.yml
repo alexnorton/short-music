@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3001:80
+    volumes:
+      - $BASE_DIR:/data:ro
