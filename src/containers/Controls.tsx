@@ -62,7 +62,7 @@ const ControlsButton = styled.button`
   }
 `;
 
-const PlayButton = ControlsButton.extend`
+const PlayButton = styled(ControlsButton)`
   height: 35px;
   width: 35px;
 `;
