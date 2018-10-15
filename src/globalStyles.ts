@@ -20,9 +20,9 @@ injectGlobal`
 
   a {
     color: #2980b9;
-  }
 
-  a:hover {
-    color: #3498db;
+    &:hover {
+      color: #3498db;
+    }
   }
 `;
