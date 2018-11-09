@@ -52,9 +52,9 @@ class Player {
     this.pause();
   }
 
-  loadAndPlayQueue(files: PlayerFile[]) {
+  loadAndPlayQueue(files: PlayerFile[], index: number) {
     this.updateQueue(files);
-    this.playQueueIndex(0);
+    this.playQueueIndex(index);
   }
 
   updateQueue(files: PlayerFile[]) {

@@ -32,10 +32,15 @@ export const LOAD_AND_PLAY_QUEUE = "LOAD_AND_PLAY_QUEUE";
 export interface LoadAndPlayQueue {
   type: typeof LOAD_AND_PLAY_QUEUE;
   queue: File[];
+  index: number;
 }
-export const loadAndPlayQueue = (queue: File[]): LoadAndPlayQueue => ({
+export const loadAndPlayQueue = (
+  queue: File[],
+  index: number
+): LoadAndPlayQueue => ({
   type: LOAD_AND_PLAY_QUEUE,
   queue,
+  index,
 });
 
 export const PREVIOUS = "PREVIOUS";

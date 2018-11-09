@@ -11,14 +11,14 @@ interface FilesListProps {
   onToggle: { (): any };
   selectedFiles: any[];
   onFileSelected: { (file: any): any };
-  onPlayFiles: { (files: File[]): any };
+  onPlayFiles: { (files: File[], index: number): any };
 }
 
 class FilesList extends React.Component<FilesListProps> {
   handlePlayFromIndex(index: number) {
     const { onPlayFiles, files } = this.props;
 
-    onPlayFiles(files.slice(index));
+    onPlayFiles(files, index);
   }
 
   render() {

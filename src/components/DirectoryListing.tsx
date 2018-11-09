@@ -46,7 +46,7 @@ interface DirectoryListingProps {
   data?: DirectoryContents;
   error?: string;
   path: string[];
-  onPlayFiles: { (file: File[]): void };
+  onPlayFiles: { (file: File[], index: number): void };
   onToggle: { (): void };
   currentFile?: File;
   playing: boolean;
@@ -101,7 +101,7 @@ class DirectoryListing extends React.Component<
         return;
       }
 
-      onPlayFiles(data.files);
+      onPlayFiles(data.files, 0);
     }
   }
 
@@ -150,12 +150,11 @@ class DirectoryListing extends React.Component<
                   )}
                 </PlayAllButton>
               )}
-              {path &&
-                path.length > 1 && (
-                  <DirectorySubHeading>
-                    {path.slice(0, path.length - 1).join(" / ")}
-                  </DirectorySubHeading>
-                )}
+              {path && path.length > 1 && (
+                <DirectorySubHeading>
+                  {path.slice(0, path.length - 1).join(" / ")}
+                </DirectorySubHeading>
+              )}
             </DirectoryHeading>
 
             {path.length > 0 && (

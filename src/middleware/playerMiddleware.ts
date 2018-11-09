@@ -37,7 +37,7 @@ const handleAction = (player: Player, action: UserAction) => {
       player.toggle();
       break;
     case LOAD_AND_PLAY_QUEUE:
-      player.loadAndPlayQueue(action.queue);
+      player.loadAndPlayQueue(action.queue, action.index);
       break;
     case PREVIOUS:
       player.previous();
