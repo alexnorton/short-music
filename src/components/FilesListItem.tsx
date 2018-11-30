@@ -1,6 +1,12 @@
 import * as React from "react";
 import styled from "styled-components";
-import { FaPlay, FaPause, FaVolumeUp, FaVolumeOff } from "react-icons/fa";
+import {
+  FaPlay,
+  FaPause,
+  FaVolumeUp,
+  FaVolumeOff,
+  FaEllipsisH,
+} from "react-icons/fa";
 
 import File from "../model/File";
 import filenameToComponents from "../helpers/filenameToComponents";
@@ -91,7 +97,35 @@ const FileName = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  flex-shrink: 1;
+  flex-grow: 1;
+`;
+
+interface MenuButtonProps {
+  selected: boolean;
+}
+
+const MenuButton = styled.button<MenuButtonProps>`
+  background: none !important;
+  padding: 0 !important;
+  border: none;
+  outline: none;
+  margin: 0 6px 0 0;
+  font-size: 0;
+  height: 20px;
+  width: 20px;
+  flex-shrink: 0;
+
+  display: ${props => (props.selected ? "inherit" : "none")};
+
+  ${StyledFilesListItem}:hover & {
+    display: inherit;
+  }
+
+  svg {
+    width: 100%;
+    height: 12px;
+    color: ${props => (props.selected ? "#fff" : "#2980b9")};
+  }
 `;
 
 interface FilesListItemProps {
@@ -139,6 +173,12 @@ const FilesListItem: React.SFC<FilesListItemProps> = ({
         {name}
         {extension && <MutedText>{extension}</MutedText>}
       </FileName>
+      <MenuButton
+        selected={selected}
+        onClick={() => console.log("MenuButton clicked")}
+      >
+        <FaEllipsisH />
+      </MenuButton>
     </StyledFilesListItem>
   );
 };
