@@ -21,6 +21,11 @@ class FilesList extends React.Component<FilesListProps> {
     onPlayFiles(files, index);
   }
 
+  handleOpenMenu(event: React.MouseEvent<Element>) {
+    event.preventDefault();
+    console.log("open menu");
+  }
+
   render() {
     const {
       files,
@@ -47,6 +52,7 @@ class FilesList extends React.Component<FilesListProps> {
                 event.stopPropagation();
                 onFileSelected(key);
               }}
+              onContextMenu={this.handleOpenMenu}
               onDoubleClick={() => this.handlePlayFromIndex(index)}
             >
               <FilesListItem
@@ -56,6 +62,7 @@ class FilesList extends React.Component<FilesListProps> {
                 selected={selectedFiles.indexOf(key) !== -1}
                 onPlayFile={() => this.handlePlayFromIndex(index)}
                 onToggle={onToggle}
+                onOpenMenu={this.handleOpenMenu}
               />
             </div>
           );

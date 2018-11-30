@@ -135,6 +135,7 @@ interface FilesListItemProps {
   playing: boolean;
   onPlayFile: { (): any };
   onToggle: { (): any };
+  onOpenMenu: { (event: React.MouseEvent<Element>): any };
 }
 
 const FilesListItem: React.SFC<FilesListItemProps> = ({
@@ -144,6 +145,7 @@ const FilesListItem: React.SFC<FilesListItemProps> = ({
   playing,
   onPlayFile,
   onToggle,
+  onOpenMenu,
 }) => {
   const { number, name, extension } = filenameToComponents(file.title);
 
@@ -173,10 +175,7 @@ const FilesListItem: React.SFC<FilesListItemProps> = ({
         {name}
         {extension && <MutedText>{extension}</MutedText>}
       </FileName>
-      <MenuButton
-        selected={selected}
-        onClick={() => console.log("MenuButton clicked")}
-      >
+      <MenuButton selected={selected} onClick={onOpenMenu}>
         <FaEllipsisH />
       </MenuButton>
     </StyledFilesListItem>
