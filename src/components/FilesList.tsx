@@ -46,25 +46,22 @@ class FilesList extends React.Component<FilesListProps> {
             : false;
 
           return (
-            <div
+            <FilesListItem
               key={key}
+              file={file}
+              playing={isCurrentFile && playing}
+              currentFile={isCurrentFile}
+              selected={selectedFiles.indexOf(key) !== -1}
+              onPlayFile={() => this.handlePlayFromIndex(index)}
+              onToggle={onToggle}
+              onOpenMenu={this.handleOpenMenu}
               onClick={event => {
                 event.stopPropagation();
                 onFileSelected(key);
               }}
               onContextMenu={this.handleOpenMenu}
               onDoubleClick={() => this.handlePlayFromIndex(index)}
-            >
-              <FilesListItem
-                file={file}
-                playing={isCurrentFile && playing}
-                currentFile={isCurrentFile}
-                selected={selectedFiles.indexOf(key) !== -1}
-                onPlayFile={() => this.handlePlayFromIndex(index)}
-                onToggle={onToggle}
-                onOpenMenu={this.handleOpenMenu}
-              />
-            </div>
+            />
           );
         })}
       </div>

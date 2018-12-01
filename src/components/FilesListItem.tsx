@@ -136,6 +136,9 @@ interface FilesListItemProps {
   onPlayFile: { (): any };
   onToggle: { (): any };
   onOpenMenu: { (event: React.MouseEvent<Element>): any };
+  onClick: { (event: React.MouseEvent<Element>): any };
+  onDoubleClick: { (event: React.MouseEvent<Element>): any };
+  onContextMenu: { (event: React.MouseEvent<Element>): any };
 }
 
 const FilesListItem: React.SFC<FilesListItemProps> = ({
@@ -146,11 +149,19 @@ const FilesListItem: React.SFC<FilesListItemProps> = ({
   onPlayFile,
   onToggle,
   onOpenMenu,
+  onClick,
+  onDoubleClick,
+  onContextMenu,
 }) => {
   const { number, name, extension } = filenameToComponents(file.title);
 
   return (
-    <StyledFilesListItem selected={selected}>
+    <StyledFilesListItem
+      selected={selected}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+      onContextMenu={onContextMenu}
+    >
       <FileAction>
         <TogglePlaybackButton
           onClick={event => {
