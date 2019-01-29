@@ -10,7 +10,7 @@ import FilesList from "./FilesList";
 import DirectoriesList from "./DirectoriesList";
 import DirectoryContents from "../model/DirectoryContents";
 import areFilesEqual from "../helpers/areFilesEqual";
-import ContextMenu from "./ContextMenu";
+import ContextMenu, { ContextMenuItem } from "./ContextMenu";
 
 const Container = styled.div`
   max-width: 800px;
@@ -101,7 +101,6 @@ class DirectoryListing extends React.Component<
 
   handleOpenMenu(event: React.MouseEvent<Element>) {
     this.setState({ menu: { x: event.clientX, y: event.clientY } });
-    console.log(event);
   }
 
   handleCloseMenu() {
@@ -202,7 +201,14 @@ class DirectoryListing extends React.Component<
                     onClose={this.handleCloseMenu}
                     x={menu.x}
                     y={menu.y}
-                  />
+                  >
+                    <ContextMenuItem onClick={() => console.log("play next")}>
+                      Play Next
+                    </ContextMenuItem>
+                    <ContextMenuItem onClick={() => console.log("play later")}>
+                      Play Later
+                    </ContextMenuItem>
+                  </ContextMenu>
                 )}
               </>
             )}

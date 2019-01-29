@@ -20,21 +20,6 @@ const Menu = styled.div`
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   padding: 3px 0;
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      padding: 4px;
-
-      &:hover {
-        background-color: #2980b9;
-        color: #fff;
-      }
-    }
-  }
 `;
 
 interface ContextMenuProps {
@@ -45,20 +30,25 @@ interface ContextMenuProps {
 
 class ContextMenu extends React.PureComponent<ContextMenuProps> {
   render() {
-    const { onClose, x, y } = this.props;
+    const { onClose, x, y, children } = this.props;
 
     return ReactDOM.createPortal(
-      <Cover onClick={onClose}>
-        <Menu style={{ top: y - 10, left: x + 1 }}>
-          <ul>
-            <li>Play Next</li>
-            <li>Play Later</li>
-          </ul>
-        </Menu>
+      <Cover onClick={onClose} onContextMenu={onClose}>
+        <Menu style={{ top: y - 10, left: x + 1 }}>{children}</Menu>
       </Cover>,
       document.body
     );
   }
 }
+
+export const ContextMenuItem = styled.div`
+  padding: 4px;
+  cursor: default;
+
+  &:hover {
+    background-color: #2980b9;
+    color: #fff;
+  }
+`;
 
 export default ContextMenu;
