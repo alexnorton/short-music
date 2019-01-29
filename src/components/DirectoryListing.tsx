@@ -10,6 +10,7 @@ import FilesList from "./FilesList";
 import DirectoriesList from "./DirectoriesList";
 import DirectoryContents from "../model/DirectoryContents";
 import areFilesEqual from "../helpers/areFilesEqual";
+import ContextMenu from "./ContextMenu";
 
 const Container = styled.div`
   max-width: 800px;
@@ -54,21 +55,27 @@ interface DirectoryListingProps {
 
 interface DirectoryListingState {
   selectedFiles: any[];
+  menu?: {
+    x: number;
+    y: number;
+  };
 }
 
 class DirectoryListing extends React.Component<
   DirectoryListingProps,
   DirectoryListingState
 > {
-  state = {
-    selectedFiles: [],
-  };
-
   constructor(props: DirectoryListingProps) {
     super(props);
 
+    this.state = {
+      selectedFiles: [],
+    };
+
     this.clearFileSelection = this.clearFileSelection.bind(this);
     this.handleFileSelected = this.handleFileSelected.bind(this);
+    this.handleOpenMenu = this.handleOpenMenu.bind(this);
+    this.handleCloseMenu = this.handleCloseMenu.bind(this);
     this.handlePlayAll = this.handlePlayAll.bind(this);
   }
 
@@ -90,6 +97,15 @@ class DirectoryListing extends React.Component<
 
   handleFileSelected(key: any) {
     this.setState({ selectedFiles: [key] });
+  }
+
+  handleOpenMenu(event: React.MouseEvent<Element>) {
+    this.setState({ menu: { x: event.clientX, y: event.clientY } });
+    console.log(event);
+  }
+
+  handleCloseMenu() {
+    this.setState({ menu: undefined });
   }
 
   handlePlayAll(currentFileIsInDirectory: boolean) {
@@ -116,7 +132,7 @@ class DirectoryListing extends React.Component<
       playing,
     } = this.props;
 
-    const { selectedFiles } = this.state;
+    const { selectedFiles, menu } = this.state;
 
     const currentFileIsInDirectory = this.isCurrentFileInDirectory(currentFile);
 
@@ -179,7 +195,15 @@ class DirectoryListing extends React.Component<
                   currentFile={currentFile}
                   selectedFiles={selectedFiles}
                   onFileSelected={this.handleFileSelected}
+                  onOpenMenu={this.handleOpenMenu}
                 />
+                {menu && (
+                  <ContextMenu
+                    onClose={this.handleCloseMenu}
+                    x={menu.x}
+                    y={menu.y}
+                  />
+                )}
               </>
             )}
           </>

@@ -12,6 +12,7 @@ interface FilesListProps {
   selectedFiles: any[];
   onFileSelected: { (file: any): any };
   onPlayFiles: { (files: File[], index: number): any };
+  onOpenMenu: { (event: React.MouseEvent<Element>): void };
 }
 
 class FilesList extends React.Component<FilesListProps> {
@@ -23,7 +24,7 @@ class FilesList extends React.Component<FilesListProps> {
 
   handleOpenMenu(event: React.MouseEvent<Element>) {
     event.preventDefault();
-    console.log("open menu");
+    this.props.onOpenMenu(event);
   }
 
   render() {
@@ -54,12 +55,18 @@ class FilesList extends React.Component<FilesListProps> {
               selected={selectedFiles.indexOf(key) !== -1}
               onPlayFile={() => this.handlePlayFromIndex(index)}
               onToggle={onToggle}
-              onOpenMenu={this.handleOpenMenu}
+              onOpenMenu={event => {
+                onFileSelected(key);
+                this.handleOpenMenu(event);
+              }}
               onClick={event => {
                 event.stopPropagation();
                 onFileSelected(key);
               }}
-              onContextMenu={this.handleOpenMenu}
+              onContextMenu={event => {
+                onFileSelected(key);
+                this.handleOpenMenu(event);
+              }}
               onDoubleClick={() => this.handlePlayFromIndex(index)}
             />
           );
