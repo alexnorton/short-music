@@ -37,6 +37,10 @@ class Player {
   }
 
   play() {
+    if (this.queue.length === 0) {
+      return;
+    }
+
     if (this.queueIndex === null) {
       this.playQueueIndex(0);
       return;
@@ -64,7 +68,11 @@ class Player {
   }
 
   addToQueue(files: PlayerFile[], next?: boolean) {
-    const insertAt = next ? this.queueIndex || 0 : this.queue.length;
+    let insertAt = next
+      ? this.queueIndex !== null
+        ? this.queueIndex + 1
+        : 0
+      : this.queue.length;
 
     const queueItems = this.getQueueItems(files);
 
