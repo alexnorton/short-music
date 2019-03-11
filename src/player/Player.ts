@@ -37,6 +37,11 @@ class Player {
   }
 
   play() {
+    if (this.queueIndex === null) {
+      this.playQueueIndex(0);
+      return;
+    }
+
     this.audio.play();
   }
 
