@@ -48,13 +48,15 @@ interface DirectoryListingProps {
   error?: string;
   path: string[];
   onPlayFiles: { (file: File[], index: number): void };
+  onPlayNext: { (file: File[]): void };
+  onPlayLater: { (file: File[]): void };
   onToggle: { (): void };
   currentFile?: File;
   playing: boolean;
 }
 
 interface DirectoryListingState {
-  selectedFiles: any[];
+  selectedFiles: File[];
   menu?: {
     x: number;
     y: number;
@@ -77,6 +79,8 @@ class DirectoryListing extends React.Component<
     this.handleOpenMenu = this.handleOpenMenu.bind(this);
     this.handleCloseMenu = this.handleCloseMenu.bind(this);
     this.handlePlayAll = this.handlePlayAll.bind(this);
+    this.handlePlayLater = this.handlePlayLater.bind(this);
+    this.handlePlayNext = this.handlePlayNext.bind(this);
   }
 
   isCurrentFileInDirectory = memoized((currentFile?: File) => {
@@ -118,6 +122,14 @@ class DirectoryListing extends React.Component<
 
       onPlayFiles(data.files, 0);
     }
+  }
+
+  handlePlayLater() {
+    this.props.onPlayLater(this.state.selectedFiles);
+  }
+
+  handlePlayNext() {
+    this.props.onPlayNext(this.state.selectedFiles);
   }
 
   render() {
@@ -202,10 +214,10 @@ class DirectoryListing extends React.Component<
                     x={menu.x}
                     y={menu.y}
                   >
-                    <ContextMenuItem onClick={() => console.log("play next")}>
+                    <ContextMenuItem onClick={this.handlePlayNext}>
                       Play Next
                     </ContextMenuItem>
-                    <ContextMenuItem onClick={() => console.log("play later")}>
+                    <ContextMenuItem onClick={this.handlePlayLater}>
                       Play Later
                     </ContextMenuItem>
                   </ContextMenu>

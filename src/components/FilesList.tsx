@@ -8,10 +8,10 @@ interface FilesListProps {
   files: File[];
   playing: boolean;
   currentFile?: File;
-  onToggle: { (): any };
-  selectedFiles: any[];
-  onFileSelected: { (file: any): any };
-  onPlayFiles: { (files: File[], index: number): any };
+  onToggle: { (): void };
+  selectedFiles: File[];
+  onFileSelected: { (file: File): void };
+  onPlayFiles: { (files: File[], index: number): void };
   onOpenMenu: { (event: React.MouseEvent<Element>): void };
 }
 
@@ -52,19 +52,19 @@ class FilesList extends React.Component<FilesListProps> {
               file={file}
               playing={isCurrentFile && playing}
               currentFile={isCurrentFile}
-              selected={selectedFiles.indexOf(key) !== -1}
+              selected={selectedFiles.indexOf(file) !== -1}
               onPlayFile={() => this.handlePlayFromIndex(index)}
               onToggle={onToggle}
               onOpenMenu={event => {
-                onFileSelected(key);
+                onFileSelected(file);
                 this.handleOpenMenu(event);
               }}
               onClick={event => {
                 event.stopPropagation();
-                onFileSelected(key);
+                onFileSelected(file);
               }}
               onContextMenu={event => {
-                onFileSelected(key);
+                onFileSelected(file);
                 this.handleOpenMenu(event);
               }}
               onDoubleClick={() => this.handlePlayFromIndex(index)}
