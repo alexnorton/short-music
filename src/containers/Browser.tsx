@@ -6,7 +6,7 @@ import { RouteComponentProps } from "react-router-dom";
 import File from "../model/File";
 import Directory from "../model/Directory";
 import DirectoryListing from "../components/DirectoryListing";
-import { loadAndPlayQueue, toggle } from "../actions/user";
+import { loadAndPlayQueue, toggle, playLater, playNext } from "../actions/user";
 import { fetchDirectory } from "../actions/library";
 import { StoreState } from "../reducers/rootReducer";
 import getFileFromLibrary from "../helpers/getFileFromLibrary";
@@ -23,6 +23,8 @@ interface BrowserProps extends RouteComponentProps<BrowserRouterProps> {
 
 interface BrowserDispatchProps {
   loadAndPlayQueue: typeof loadAndPlayQueue;
+  playLater: typeof playLater;
+  playNext: typeof playNext;
   toggle: typeof toggle;
   fetchDirectory: typeof fetchDirectory;
 }
@@ -51,6 +53,8 @@ class Browser extends React.PureComponent<BrowserProps & BrowserDispatchProps> {
   render() {
     const {
       loadAndPlayQueue,
+      playLater,
+      playNext,
       toggle,
       currentFile,
       playing,
@@ -70,6 +74,8 @@ class Browser extends React.PureComponent<BrowserProps & BrowserDispatchProps> {
           data={contents}
           error={error}
           onPlayFiles={loadAndPlayQueue}
+          onPlayLater={playLater}
+          onPlayNext={playNext}
           onToggle={toggle}
           playing={playing}
           currentFile={currentFile}
@@ -102,6 +108,8 @@ const mapDispatchToProps = (dispatch: Dispatch): BrowserDispatchProps =>
   bindActionCreators(
     {
       loadAndPlayQueue,
+      playLater,
+      playNext,
       toggle,
       fetchDirectory,
     },

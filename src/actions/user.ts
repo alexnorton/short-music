@@ -65,6 +65,26 @@ export const playQueueIndex = (index: number): PlayQueueIndex => ({
   index,
 });
 
+export const PLAY_LATER = "PLAY_LATER";
+export interface PlayLater {
+  type: typeof PLAY_LATER;
+  files: File[];
+}
+export const playLater = (files: File[]): PlayLater => ({
+  type: PLAY_LATER,
+  files,
+});
+
+export const PLAY_NEXT = "PLAY_NEXT";
+export interface PlayNext {
+  type: typeof PLAY_NEXT;
+  files: File[];
+}
+export const playNext = (files: File[]): PlayNext => ({
+  type: PLAY_NEXT,
+  files,
+});
+
 export type UserAction =
   | PlayFile
   | Play
@@ -73,4 +93,6 @@ export type UserAction =
   | LoadAndPlayQueue
   | Previous
   | Next
-  | PlayQueueIndex;
+  | PlayQueueIndex
+  | PlayLater
+  | PlayNext;

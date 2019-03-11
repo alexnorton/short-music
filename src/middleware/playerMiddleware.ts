@@ -9,6 +9,8 @@ import {
   PREVIOUS,
   PLAY_QUEUE_INDEX,
   TOGGLE,
+  PLAY_LATER,
+  PLAY_NEXT,
 } from "../actions/user";
 import {
   playing,
@@ -47,6 +49,12 @@ const handleAction = (player: Player, action: UserAction) => {
       break;
     case PLAY_QUEUE_INDEX:
       player.playQueueIndex(action.index);
+      break;
+    case PLAY_LATER:
+      player.addToQueue(action.files);
+      break;
+    case PLAY_NEXT:
+      player.addToQueue(action.files, true);
       break;
     default:
       break;

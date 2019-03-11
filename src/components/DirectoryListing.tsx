@@ -10,6 +10,7 @@ import FilesList from "./FilesList";
 import DirectoriesList from "./DirectoriesList";
 import DirectoryContents from "../model/DirectoryContents";
 import areFilesEqual from "../helpers/areFilesEqual";
+import ContextMenu, { ContextMenuItem } from "./ContextMenu";
 
 const Container = styled.div`
   max-width: 800px;
@@ -47,29 +48,39 @@ interface DirectoryListingProps {
   error?: string;
   path: string[];
   onPlayFiles: { (file: File[], index: number): void };
+  onPlayNext: { (file: File[]): void };
+  onPlayLater: { (file: File[]): void };
   onToggle: { (): void };
   currentFile?: File;
   playing: boolean;
 }
 
 interface DirectoryListingState {
-  selectedFiles: any[];
+  selectedFiles: File[];
+  menu?: {
+    x: number;
+    y: number;
+  };
 }
 
 class DirectoryListing extends React.Component<
   DirectoryListingProps,
   DirectoryListingState
 > {
-  state = {
-    selectedFiles: [],
-  };
-
   constructor(props: DirectoryListingProps) {
     super(props);
 
+    this.state = {
+      selectedFiles: [],
+    };
+
     this.clearFileSelection = this.clearFileSelection.bind(this);
     this.handleFileSelected = this.handleFileSelected.bind(this);
+    this.handleOpenMenu = this.handleOpenMenu.bind(this);
+    this.handleCloseMenu = this.handleCloseMenu.bind(this);
     this.handlePlayAll = this.handlePlayAll.bind(this);
+    this.handlePlayLater = this.handlePlayLater.bind(this);
+    this.handlePlayNext = this.handlePlayNext.bind(this);
   }
 
   isCurrentFileInDirectory = memoized((currentFile?: File) => {
@@ -92,6 +103,14 @@ class DirectoryListing extends React.Component<
     this.setState({ selectedFiles: [key] });
   }
 
+  handleOpenMenu(event: React.MouseEvent<Element>) {
+    this.setState({ menu: { x: event.clientX, y: event.clientY } });
+  }
+
+  handleCloseMenu() {
+    this.setState({ menu: undefined });
+  }
+
   handlePlayAll(currentFileIsInDirectory: boolean) {
     const { data, onPlayFiles, onToggle } = this.props;
 
@@ -105,6 +124,14 @@ class DirectoryListing extends React.Component<
     }
   }
 
+  handlePlayLater() {
+    this.props.onPlayLater(this.state.selectedFiles);
+  }
+
+  handlePlayNext() {
+    this.props.onPlayNext(this.state.selectedFiles);
+  }
+
   render() {
     const {
       data,
@@ -116,7 +143,7 @@ class DirectoryListing extends React.Component<
       playing,
     } = this.props;
 
-    const { selectedFiles } = this.state;
+    const { selectedFiles, menu } = this.state;
 
     const currentFileIsInDirectory = this.isCurrentFileInDirectory(currentFile);
 
@@ -179,7 +206,22 @@ class DirectoryListing extends React.Component<
                   currentFile={currentFile}
                   selectedFiles={selectedFiles}
                   onFileSelected={this.handleFileSelected}
+                  onOpenMenu={this.handleOpenMenu}
                 />
+                {menu && (
+                  <ContextMenu
+                    onClose={this.handleCloseMenu}
+                    x={menu.x}
+                    y={menu.y}
+                  >
+                    <ContextMenuItem onClick={this.handlePlayNext}>
+                      Play Next
+                    </ContextMenuItem>
+                    <ContextMenuItem onClick={this.handlePlayLater}>
+                      Play Later
+                    </ContextMenuItem>
+                  </ContextMenu>
+                )}
               </>
             )}
           </>

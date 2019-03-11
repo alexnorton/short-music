@@ -53,16 +53,35 @@ class Player {
   }
 
   loadAndPlayQueue(files: PlayerFile[], index: number) {
-    this.updateQueue(files);
+    const queueItems = this.getQueueItems(files);
+    this.updateQueue(queueItems);
     this.playQueueIndex(index);
   }
 
-  updateQueue(files: PlayerFile[]) {
-    this.queue = files.map(file => ({ file, id: uuidv4() }));
+  addToQueue(files: PlayerFile[], next?: boolean) {
+    const insertAt = next ? this.queueIndex || 0 : this.queue.length;
+
+    const queueItems = this.getQueueItems(files);
+
+    const newQueue = [
+      ...this.queue.slice(0, insertAt),
+      ...queueItems,
+      ...this.queue.slice(insertAt),
+    ];
+
+    this.updateQueue(newQueue);
+  }
+
+  updateQueue(queueItems: QueueItem[]) {
+    this.queue = queueItems;
 
     if (this.onQueueChanged) {
       this.onQueueChanged(this.queue);
     }
+  }
+
+  getQueueItems(files: PlayerFile[]) {
+    return files.map(file => ({ file, id: uuidv4() }));
   }
 
   playQueueIndex(index: number) {

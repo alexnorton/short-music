@@ -8,10 +8,11 @@ interface FilesListProps {
   files: File[];
   playing: boolean;
   currentFile?: File;
-  onToggle: { (): any };
-  selectedFiles: any[];
-  onFileSelected: { (file: any): any };
-  onPlayFiles: { (files: File[], index: number): any };
+  onToggle: { (): void };
+  selectedFiles: File[];
+  onFileSelected: { (file: File): void };
+  onPlayFiles: { (files: File[], index: number): void };
+  onOpenMenu: { (event: React.MouseEvent<Element>): void };
 }
 
 class FilesList extends React.Component<FilesListProps> {
@@ -19,6 +20,11 @@ class FilesList extends React.Component<FilesListProps> {
     const { onPlayFiles, files } = this.props;
 
     onPlayFiles(files, index);
+  }
+
+  handleOpenMenu(event: React.MouseEvent<Element>) {
+    event.preventDefault();
+    this.props.onOpenMenu(event);
   }
 
   render() {
@@ -41,23 +47,28 @@ class FilesList extends React.Component<FilesListProps> {
             : false;
 
           return (
-            <div
+            <FilesListItem
               key={key}
+              file={file}
+              playing={isCurrentFile && playing}
+              currentFile={isCurrentFile}
+              selected={selectedFiles.indexOf(file) !== -1}
+              onPlayFile={() => this.handlePlayFromIndex(index)}
+              onToggle={onToggle}
+              onOpenMenu={event => {
+                onFileSelected(file);
+                this.handleOpenMenu(event);
+              }}
               onClick={event => {
                 event.stopPropagation();
-                onFileSelected(key);
+                onFileSelected(file);
+              }}
+              onContextMenu={event => {
+                onFileSelected(file);
+                this.handleOpenMenu(event);
               }}
               onDoubleClick={() => this.handlePlayFromIndex(index)}
-            >
-              <FilesListItem
-                file={file}
-                playing={isCurrentFile && playing}
-                currentFile={isCurrentFile}
-                selected={selectedFiles.indexOf(key) !== -1}
-                onPlayFile={() => this.handlePlayFromIndex(index)}
-                onToggle={onToggle}
-              />
-            </div>
+            />
           );
         })}
       </div>
