@@ -22,7 +22,7 @@ const QueueList = styled.ul`
   list-style: none;
 `;
 
-const QueueItem = styled.li`
+const QueueListItem = styled.li`
   :not(:last-child) {
     margin-bottom: 10px;
   }
@@ -52,37 +52,38 @@ interface QueueDispatchProps {
   playQueueIndex: { (index: number): any };
 }
 
-const Queue: React.SFC<QueueProps & QueueDispatchProps> = ({
-  queue,
-  queueIndex,
-  playQueueIndex,
-}) => (
-  <StyledQueue>
-    <QueueHeading>Up next</QueueHeading>
-    {queue.length > 0 ? (
-      <QueueList>
-        {queue.map(({ file: { filename, directory }, id }, index) => {
-          return (
-            <QueueItem key={id}>
-              <QueueButton onClick={() => playQueueIndex(index)}>
-                {queueIndex === index && "▶ "}
-                {filename}
-              </QueueButton>
-              <br />
-              {directory.join("/")}
-            </QueueItem>
-          );
-        })}
-      </QueueList>
-    ) : (
-      "Queue empty"
-    )}
-  </StyledQueue>
-);
+class Queue extends React.PureComponent<QueueProps & QueueDispatchProps> {
+  render() {
+    const { queue, queueIndex, playQueueIndex } = this.props;
+
+    return (
+      <StyledQueue>
+        <QueueHeading>Up next</QueueHeading>
+        {queue.length > 0 ? (
+          <QueueList>
+            {queue.map(({ file: { filename, directory }, id }, index) => {
+              return (
+                <QueueListItem key={id}>
+                  <QueueButton onClick={() => playQueueIndex(index)}>
+                    {queueIndex === index && "▶ "}
+                    {filename}
+                  </QueueButton>
+                  <br />
+                  {directory.join("/")}
+                </QueueListItem>
+              );
+            })}
+          </QueueList>
+        ) : (
+          "Queue empty"
+        )}
+      </StyledQueue>
+    );
+  }
+}
 
 const mapStateToProps = ({
   player: { queue, queueIndex },
-  library,
 }: StoreState): QueueProps => ({
   queue,
   queueIndex,

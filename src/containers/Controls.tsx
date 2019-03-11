@@ -110,44 +110,54 @@ interface ControlsDispatchProps {
   onNext: { (): any };
 }
 
-const Controls: React.SFC<ControlsProps & ControlsDispatchProps> = ({
-  playing,
-  duration,
-  currentTime,
-  onToggle,
-  seekableTo,
-  file,
-  onPrevious,
-  onNext,
-}) => (
-  <StyledControls>
-    <ControlsContainer>
-      <ControlsRow>
-        <ControlsButton onClick={onPrevious}>
-          <FaBackward />
-        </ControlsButton>
-        <PlayButton onClick={onToggle}>
-          {playing ? <FaPause /> : <FaPlay />}
-        </PlayButton>
-        <ControlsButton onClick={onNext}>
-          <FaForward />
-        </ControlsButton>
-      </ControlsRow>
-      <FileRow>{file ? <FileName filename={file.title} /> : "Stopped"}</FileRow>
-      <ProgressContainer>
-        <TimesRow>
-          <div>{secondsToTimecode(currentTime)}</div>
-          <div>-{secondsToTimecode(duration - currentTime)}</div>
-        </TimesRow>
-        <ProgressBar
-          duration={duration}
-          currentTime={currentTime}
-          seekableTo={seekableTo}
-        />
-      </ProgressContainer>
-    </ControlsContainer>
-  </StyledControls>
-);
+class Controls extends React.PureComponent<
+  ControlsProps & ControlsDispatchProps
+> {
+  render() {
+    const {
+      playing,
+      duration,
+      currentTime,
+      onToggle,
+      seekableTo,
+      file,
+      onPrevious,
+      onNext,
+    } = this.props;
+
+    return (
+      <StyledControls>
+        <ControlsContainer>
+          <ControlsRow>
+            <ControlsButton onClick={onPrevious}>
+              <FaBackward />
+            </ControlsButton>
+            <PlayButton onClick={onToggle}>
+              {playing ? <FaPause /> : <FaPlay />}
+            </PlayButton>
+            <ControlsButton onClick={onNext}>
+              <FaForward />
+            </ControlsButton>
+          </ControlsRow>
+          <FileRow>
+            {file ? <FileName filename={file.title} /> : "Stopped"}
+          </FileRow>
+          <ProgressContainer>
+            <TimesRow>
+              <div>{secondsToTimecode(currentTime)}</div>
+              <div>-{secondsToTimecode(duration - currentTime)}</div>
+            </TimesRow>
+            <ProgressBar
+              duration={duration}
+              currentTime={currentTime}
+              seekableTo={seekableTo}
+            />
+          </ProgressContainer>
+        </ControlsContainer>
+      </StyledControls>
+    );
+  }
+}
 
 const mapStateToProps = ({
   player: { playing, duration, currentTime, queue, queueIndex, seekableTo },
