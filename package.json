@@ -38,7 +38,7 @@
     "@typescript-eslint/parser": "^1.4.2",
     "eslint-config-prettier": "^4.1.0",
     "typescript": "^3.3.3333",
-    "webpack-bundle-analyzer": "^2.13.1"
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "browserslist": [
     ">0.2%",
