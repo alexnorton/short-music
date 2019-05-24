@@ -82,10 +82,28 @@ class FilesList extends React.Component<FilesListProps> {
                 }
 
                 if (event.shiftKey) {
-                  const start =
-                    selectedFiles.length > 0
-                      ? files.indexOf(selectedFiles[selectedFiles.length - 1])
-                      : 0;
+                  const selectedFilesIndexes = selectedFiles
+                    .map(selectedFile => files.indexOf(selectedFile))
+                    .sort();
+
+                  const selectedFilesAreSequential =
+                    selectedFiles.length > 0 &&
+                    !selectedFilesIndexes.some(
+                      (fileIndex, index) =>
+                        index > 0 &&
+                        fileIndex !== selectedFilesIndexes[index - 1] + 1
+                    );
+
+                  let start: number;
+
+                  if (selectedFilesAreSequential) {
+                    start = selectedFilesIndexes[0];
+                  } else {
+                    start =
+                      selectedFiles.length > 0
+                        ? files.indexOf(selectedFiles[selectedFiles.length - 1])
+                        : 0;
+                  }
 
                   const selection = files.slice(
                     Math.min(start, index),
