@@ -32,8 +32,13 @@ class ContextMenu extends React.PureComponent<ContextMenuProps> {
   render() {
     const { onClose, x, y, children } = this.props;
 
+    function handleEvent(event: React.MouseEvent) {
+      event.stopPropagation();
+      onClose();
+    }
+
     return ReactDOM.createPortal(
-      <Cover onClick={onClose} onContextMenu={onClose}>
+      <Cover onClick={handleEvent} onContextMenu={handleEvent}>
         <Menu style={{ top: y - 10, left: x + 1 }}>{children}</Menu>
       </Cover>,
       document.body
