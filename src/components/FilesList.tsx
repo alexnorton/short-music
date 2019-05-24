@@ -76,12 +76,24 @@ class FilesList extends React.Component<FilesListProps> {
                     onRemoveFileFromSlection(file);
                     return;
                   }
+
                   onAddFileToSlection(file);
                   return;
                 }
 
                 if (event.shiftKey) {
-                  console.log("shiftKey");
+                  const start =
+                    selectedFiles.length > 0
+                      ? files.indexOf(selectedFiles[selectedFiles.length - 1])
+                      : 0;
+
+                  const selection = files.slice(
+                    Math.min(start, index),
+                    Math.max(start, index) + 1
+                  );
+
+                  onFilesSelected(selection);
+                  return;
                 }
 
                 onFilesSelected([file]);
