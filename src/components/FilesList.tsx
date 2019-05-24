@@ -10,7 +10,9 @@ interface FilesListProps {
   currentFile?: File;
   onToggle: { (): void };
   selectedFiles: File[];
-  onFileSelected: { (file: File): void };
+  onFilesSelected: { (files: File[]): void };
+  onAddFileToSlection: { (file: File): void };
+  onRemoveFileFromSlection: { (file: File): void };
   onPlayFiles: { (files: File[], index: number): void };
   onOpenMenu: { (event: React.MouseEvent<Element>): void };
 }
@@ -34,7 +36,9 @@ class FilesList extends React.Component<FilesListProps> {
       currentFile,
       onToggle,
       selectedFiles,
-      onFileSelected,
+      onFilesSelected,
+      onAddFileToSlection,
+      onRemoveFileFromSlection,
     } = this.props;
 
     return (
@@ -46,25 +50,47 @@ class FilesList extends React.Component<FilesListProps> {
             ? areFilesEqual(file, currentFile)
             : false;
 
+          const selected = selectedFiles.indexOf(file) !== -1;
+
           return (
             <FilesListItem
               key={key}
               file={file}
               playing={isCurrentFile && playing}
               currentFile={isCurrentFile}
-              selected={selectedFiles.indexOf(file) !== -1}
+              selected={selected}
               onPlayFile={() => this.handlePlayFromIndex(index)}
               onToggle={onToggle}
               onOpenMenu={event => {
-                onFileSelected(file);
+                if (!selected) {
+                  onFilesSelected([file]);
+                }
+
                 this.handleOpenMenu(event);
               }}
               onClick={event => {
                 event.stopPropagation();
-                onFileSelected(file);
+
+                if (event.metaKey) {
+                  if (selected) {
+                    onRemoveFileFromSlection(file);
+                    return;
+                  }
+                  onAddFileToSlection(file);
+                  return;
+                }
+
+                if (event.shiftKey) {
+                  console.log("shiftKey");
+                }
+
+                onFilesSelected([file]);
               }}
               onContextMenu={event => {
-                onFileSelected(file);
+                if (!selected) {
+                  onFilesSelected([file]);
+                }
+
                 this.handleOpenMenu(event);
               }}
               onDoubleClick={() => this.handlePlayFromIndex(index)}

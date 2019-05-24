@@ -75,7 +75,11 @@ class DirectoryListing extends React.Component<
     };
 
     this.clearFileSelection = this.clearFileSelection.bind(this);
-    this.handleFileSelected = this.handleFileSelected.bind(this);
+    this.handleFilesSelected = this.handleFilesSelected.bind(this);
+    this.handleAddFileToSelection = this.handleAddFileToSelection.bind(this);
+    this.handleRemoveFileFromSelection = this.handleRemoveFileFromSelection.bind(
+      this
+    );
     this.handleOpenMenu = this.handleOpenMenu.bind(this);
     this.handleCloseMenu = this.handleCloseMenu.bind(this);
     this.handlePlayAll = this.handlePlayAll.bind(this);
@@ -99,8 +103,23 @@ class DirectoryListing extends React.Component<
     this.setState({ selectedFiles: [] });
   }
 
-  handleFileSelected(key: any) {
-    this.setState({ selectedFiles: [key] });
+  handleFilesSelected(keys: any[]) {
+    this.setState({ selectedFiles: keys });
+  }
+
+  handleAddFileToSelection(key: any) {
+    this.setState({ selectedFiles: [...this.state.selectedFiles, key] });
+  }
+
+  handleRemoveFileFromSelection(key: any) {
+    const index = this.state.selectedFiles.indexOf(key);
+
+    this.setState({
+      selectedFiles: [
+        ...this.state.selectedFiles.slice(0, index),
+        ...this.state.selectedFiles.slice(index + 1),
+      ],
+    });
   }
 
   handleOpenMenu(event: React.MouseEvent<Element>) {
@@ -205,7 +224,9 @@ class DirectoryListing extends React.Component<
                   playing={playing}
                   currentFile={currentFile}
                   selectedFiles={selectedFiles}
-                  onFileSelected={this.handleFileSelected}
+                  onFilesSelected={this.handleFilesSelected}
+                  onAddFileToSlection={this.handleAddFileToSelection}
+                  onRemoveFileFromSlection={this.handleRemoveFileFromSelection}
                   onOpenMenu={this.handleOpenMenu}
                 />
                 {menu && (
