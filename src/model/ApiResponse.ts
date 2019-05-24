@@ -16,6 +16,4 @@ interface UrlItem extends BaseItem {
 }
 
 type Item = DirectoryItem & FileItem & UrlItem;
-type ApiResponse = Item[];
-
-export default ApiResponse;
+export type ApiResponse = Item[];

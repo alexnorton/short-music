@@ -1,7 +1,10 @@
-import { Dispatch } from "redux";
+import { Action } from "redux";
+import { ThunkAction } from "redux-thunk";
+
+import { StoreState } from "../reducers/rootReducer";
 
 import DirectoryContents from "../model/DirectoryContents";
-import ApiResponse from "../model/ApiResponse";
+import { ApiResponse } from "../model/ApiResponse";
 import compareItems from "../helpers/compareItems";
 import { SERVER_ENDPOINT } from "../config";
 
@@ -12,7 +15,7 @@ export interface DirectoryRequest {
 }
 export const directoryRequest = (path: string[]): DirectoryRequest => ({
   type: DIRECTORY_REQUEST,
-  path,
+  path
 });
 
 export const DIRECTORY_FAILURE = "DIRECTORY_FAILURE";
@@ -27,7 +30,7 @@ export const directoryFailure = (
 ): DirectoryFailure => ({
   type: DIRECTORY_FAILURE,
   path,
-  error,
+  error
 });
 
 export const DIRECTORY_SUCCESS = "DIRECTORY_SUCCESS";
@@ -42,12 +45,12 @@ export const directorySuccess = (
 ): DirectorySuccess => ({
   type: DIRECTORY_SUCCESS,
   path,
-  directory,
+  directory
 });
 
-export const fetchDirectory = (path: string[]) => async (
-  dispatch: Dispatch
-) => {
+export const fetchDirectory = (
+  path: string[]
+): ThunkAction<void, StoreState, null, Action<string>> => async dispatch => {
   dispatch(directoryRequest(path));
 
   try {
@@ -75,9 +78,9 @@ export const fetchDirectory = (path: string[]) => async (
           url:
             item.type === "url"
               ? item.url
-              : `${SERVER_ENDPOINT}/${joinedPath}${item.name}`,
+              : `${SERVER_ENDPOINT}/${joinedPath}${item.name}`
         }))
-        .sort((a, b) => compareItems(a.title, b.title)),
+        .sort((a, b) => compareItems(a.title, b.title))
     };
     dispatch(directorySuccess(path, contents));
   } catch (error) {

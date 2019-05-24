@@ -53,7 +53,7 @@ interface QueueDispatchProps {
 }
 
 class Queue extends React.PureComponent<QueueProps & QueueDispatchProps> {
-  render() {
+  public render() {
     const { queue, queueIndex, playQueueIndex } = this.props;
 
     return (

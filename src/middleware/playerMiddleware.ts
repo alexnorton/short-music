@@ -23,7 +23,7 @@ import {
 } from "../actions/player";
 import { Middleware } from "redux";
 
-const handleAction = (player: Player, action: UserAction) => {
+const handleAction = (player: Player, action: UserAction): void => {
   switch (action.type) {
     case PLAY_FILE:
       const { file } = action;

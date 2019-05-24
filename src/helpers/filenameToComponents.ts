@@ -1,4 +1,10 @@
-const filenameToComponents = (filename: string) => {
+interface FilenameComponents {
+  number: string | null;
+  name: string;
+  extension: string | null;
+}
+
+const filenameToComponents = (filename: string): FilenameComponents => {
   const match = filename.match(/^(\d+(?:-\d+)?)?(.+?)(\.[^.]+)?$/);
 
   if (match) {

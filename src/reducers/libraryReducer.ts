@@ -10,7 +10,7 @@ export interface LibraryState {
   [path: string]: Directory | undefined;
 }
 
-const pathToKey = (path: string[]) => `/${path.join("/")}`;
+const pathToKey = (path: string[]): string => `/${path.join("/")}`;
 
 const libraryReducer = (
   state: LibraryState = {},

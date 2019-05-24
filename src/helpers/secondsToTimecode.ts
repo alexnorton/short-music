@@ -1,4 +1,4 @@
-const secondsToTimecode = (input: number) => {
+const secondsToTimecode = (input: number): string => {
   const hours = Math.floor(input / (60 * 60));
   const minutes = Math.floor((input % (60 * 60)) / 60).toString();
   const seconds = Math.floor(input % 60).toString();
